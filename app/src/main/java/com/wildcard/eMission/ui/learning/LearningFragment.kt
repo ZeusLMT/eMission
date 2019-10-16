@@ -1,4 +1,4 @@
-package com.wildcard.eMission.ui.dashboard
+package com.wildcard.eMission.ui.learning
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.wildcard.eMission.R
 
-class DashboardFragment : Fragment() {
+class LearningFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var learningViewModel: LearningViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(this, Observer {
+        learningViewModel =
+            ViewModelProviders.of(this).get(LearningViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_learning, container, false)
+        val textView: TextView = root.findViewById(R.id.text_learn)
+        learningViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

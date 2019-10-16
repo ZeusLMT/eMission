@@ -12,12 +12,12 @@
         android:title="@string/title_rewards" />
 
     <item
-        android:id="@+id/navigation_learn"
+        android:id="@+id/navigation_learning"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_learn" />
+        android:title="@string/title_learning" />
     <item
         android:id="@+id/navigation_you"
-        android:icon="@android:drawable/ic_menu_info_details"
+        android:icon="@drawable/ic_action_you"
         android:title="@string/title_you" />
 
 </menu>

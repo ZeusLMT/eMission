@@ -13,13 +13,18 @@
 
     <fragment
         android:id="@+id/navigation_rewards"
-        android:name="com.wildcard.eMission.ui.dashboard.DashboardFragment"
+        android:name="com.wildcard.eMission.ui.rewards.RewardsFragment"
         android:label="@string/title_rewards"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_rewards" />
 
     <fragment
-        android:id="@+id/navigation_learn"
-        android:name="com.wildcard.eMission.ui.notifications.NotificationsFragment"
-        android:label="@string/title_learn"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_learning"
+        android:name="com.wildcard.eMission.ui.learning.LearningFragment"
+        android:label="@string/title_learning"
+        tools:layout="@layout/fragment_learning" />
+    <fragment
+        android:id="@+id/navigation_you"
+        android:name="com.wildcard.eMission.YouFragment"
+        android:label="@string/title_you"
+        tools:layout="@layout/fragment_you" />
 </navigation>

@@ -1,7 +1,11 @@
 <resources>
+    <!--    NavBar items-->
     <string name="app_name">eMission</string>
     <string name="title_home">eMissions</string>
     <string name="title_rewards">Rewards</string>
     <string name="title_learning">Learning</string>
     <string name="title_you">You</string>
+
+    <!--    Action Bar items-->
+    <string name="title_settings">Settings</string>
 </resources>

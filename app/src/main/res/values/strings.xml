@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">eMission</string>
+    <string name="title_home">eMissions</string>
+    <string name="title_rewards">Rewards</string>
+    <string name="title_learn">Learn</string>
+    <string name="title_you">You</string>
+</resources>

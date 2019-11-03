@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ActionBarTitleAppearance" parent="Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textSize">35sp</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

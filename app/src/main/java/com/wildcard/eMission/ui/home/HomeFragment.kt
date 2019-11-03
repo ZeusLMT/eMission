@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
     override fun onCreateView(
@@ -18,14 +19,26 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        text_home.text = "This is home Fragment"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setupActionBar()
+    }
+
+    private fun setupActionBar() {
+        val actionBar = activity?.findViewById<Toolbar>(R.id.toolbar)
+
+        val actionBarTitle= actionBar?.findViewById<TextView>(R.id.actionbar_title)
+        val actionBarSubtitle= actionBar?.findViewById<TextView>(R.id.actionbar_subtitle)
+        actionBarTitle?.text = getString(R.string.title_home)
+        actionBarSubtitle?.text = getString(R.string.subtitle_home, 132)
+
         Utils.setGradientTextColor(
-            text_home,
+            actionBarTitle!!,
             context!!.getColor(R.color.colorPrimary_blue),
-            context!!.getColor(R.color.colorPrimary_red)
+            context!!.getColor(R.color.colorPrimary_green)
         )
     }
 }

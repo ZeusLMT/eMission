@@ -1,4 +1,4 @@
-package com.wildcard.eMission.ui.rewards
+package com.wildcard.eMission.ui.you
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProviders
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 
-class RewardsFragment : Fragment() {
+class YouFragment : Fragment() {
 
-    private lateinit var rewardsViewModel: RewardsViewModel
+    private lateinit var youViewModel: YouViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rewardsViewModel =
-            ViewModelProviders.of(this).get(RewardsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_rewards, container, false)
-        val textView: TextView = root.findViewById(R.id.text_rewards)
-        rewardsViewModel.text.observe(this, Observer {
+        youViewModel =
+            ViewModelProviders.of(this).get(YouViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_you, container, false)
+        val textView: TextView = root.findViewById(R.id.text_you)
+        youViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root
@@ -40,15 +40,15 @@ class RewardsFragment : Fragment() {
     private fun setupActionBar() {
         val actionBar = activity?.findViewById<Toolbar>(R.id.toolbar)
 
-        val actionBarTitle= actionBar?.findViewById<TextView>(R.id.actionbar_title)
-        val actionBarSubtitle= actionBar?.findViewById<TextView>(R.id.actionbar_subtitle)
-        actionBarTitle?.text = getString(R.string.title_rewards)
-        actionBarSubtitle?.text = getString(R.string.subtitle_rewards)
+        val actionBarTitle = actionBar?.findViewById<TextView>(R.id.actionbar_title)
+        val actionBarSubtitle = actionBar?.findViewById<TextView>(R.id.actionbar_subtitle)
+        actionBarTitle?.text = getString(R.string.title_you)
+        actionBarSubtitle?.text = getString(R.string.subtitle_you)
 
         Utils.setGradientTextColor(
             actionBarTitle!!,
-            context!!.getColor(R.color.colorPrimary_yellow),
-            context!!.getColor(R.color.colorPrimary_red)
+            context!!.getColor(R.color.colorPrimary_red),
+            context!!.getColor(R.color.colorPrimary_blue)
         )
     }
 }

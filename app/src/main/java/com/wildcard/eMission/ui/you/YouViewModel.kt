@@ -1,4 +1,4 @@
-package com.wildcard.eMission
+package com.wildcard.eMission.ui.you
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class YouViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is you Fragment"
+        value = "This is You Fragment"
     }
     val text: LiveData<String> = _text
 }

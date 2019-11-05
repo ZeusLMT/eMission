@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 
@@ -35,6 +36,8 @@ class LearningFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         setupActionBar()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_3)
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_3)
     }
 
     private fun setupActionBar() {

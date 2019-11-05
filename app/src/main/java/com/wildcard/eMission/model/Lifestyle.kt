@@ -1,11 +1,11 @@
 package com.wildcard.eMission.model
 
 data class Lifestyle (
-    val ageGroup: ArrayList<AgeGroup>,
-    val diet: ArrayList<Diet>,
-    val transportation: ArrayList<Transportation>,
-    val housingType: ArrayList<HousingType>,
-    val powerConsumption: ArrayList<Int>
+    val ageGroup: ArrayList<AgeGroup>?,
+    val diet: ArrayList<Diet>?,
+    val transportation: ArrayList<Transportation>?,
+    val housingType: ArrayList<HousingType>?,
+    val powerConsumption: ArrayList<PowerConsumption>?
 )
 
 enum class AgeGroup {
@@ -30,4 +30,11 @@ enum class HousingType {
     APARTMENT,
     TOWN_HOUSE,
     DETACHED_HOUSE
+}
+
+enum class PowerConsumption {
+    VERY_HIGH,
+    HIGH,
+    AVERAGE,
+    LOW
 }

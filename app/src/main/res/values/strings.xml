@@ -27,4 +27,8 @@
     <string name="questions_start_page_explanation">Please answer the next 3 questions for personalized content</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
+
+    <!-- image content descriptions -->
+    <string name="description_forward">Forward button</string>
+    <string name="description_app_logo">App logo</string>
 </resources>

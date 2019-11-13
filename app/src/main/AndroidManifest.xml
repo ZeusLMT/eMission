@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".EmissionApplication">
+        <activity android:name="fi.metropolia.wildcard.emission.QuestionPagesActivity">
+        </activity>
+        <activity android:name="fi.metropolia.wildcard.emission.StartOfQuestionsActivity">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

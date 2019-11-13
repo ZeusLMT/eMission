@@ -1,12 +1,16 @@
 package com.wildcard.eMission
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import fi.metropolia.wildcard.emission.StartOfQuestionsActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,5 +34,22 @@ class MainActivity : AppCompatActivity() {
 //        )
 //        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        showBeginingQuestions()
+    }
+
+    fun showBeginingQuestions(){
+        val myApplication =  EmissionApplication()
+        val prefname = myApplication.PREF_NAME
+        val appartmentPref = myApplication.PREF_APPARTMENT
+        val transportationPref = myApplication.PREF_TRANSPORTATION
+        val dietPref = myApplication.PREF_VEGETARIAN
+
+        val sharedPreference = this.getSharedPreferences(prefname, Context.MODE_PRIVATE)
+
+        if(!sharedPreference.contains(appartmentPref) || !sharedPreference.contains(transportationPref) || !sharedPreference.contains(dietPref)){
+            val startingQuestionsIntent = Intent(this, StartOfQuestionsActivity::class.java)
+            startActivity(startingQuestionsIntent)
+        }
     }
 }

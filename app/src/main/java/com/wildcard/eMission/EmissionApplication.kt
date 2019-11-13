@@ -4,6 +4,16 @@ import android.app.Application
 import timber.log.Timber
 
 class EmissionApplication : Application() {
+
+    val PREF_NAME: String = "userpreferences"
+    val PREF_APPARTMENT: String = "prefappartment"
+    val PREF_TRANSPORTATION: String = "preftransportation"
+    val PREF_OPTION_TRANSPORTATION_CAR: String = "car"
+    val PREF_OPTION_TRANSPORTATION_TRAIN: String = "train"
+    val PREF_OPTION_TRANSPORTATION_BUS: String = "bus"
+    val PREF_OPTION_TRANSPORTATION_BICYCLE: String = "bicycle"
+    val PREF_VEGETARIAN: String = "prefvegetarian"
+
     override fun onCreate() {
         super.onCreate()
 

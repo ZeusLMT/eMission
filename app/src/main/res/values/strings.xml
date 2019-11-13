@@ -12,4 +12,19 @@
 
     <!--    Action Bar items-->
     <string name="title_settings">Settings</string>
+
+    <!-- starting questions pages -->
+    <string name="fragment_living_style_question">Do you live in an apartment?</string>
+    <string name="fragment_diet_question">Are you vegetarian?</string>
+    <string name="fragment_transportation_question">What is your main way of transportation?</string>
+    <string name="fragment_transportation_car">Private car</string>
+    <string name="fragment_transportation_bicycle">Bicycle</string>
+    <string name="fragment_transportation_bus">Bus</string>
+    <string name="fragment_transportation_train">Train</string>
+    <string name="questions_start_page_phrase">Let\'s make big impacts with small actions, for carbon neutral Helsinki
+        in 2035
+    </string>
+    <string name="questions_start_page_explanation">Please answer the next 3 questions for personalized content</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
 </resources>

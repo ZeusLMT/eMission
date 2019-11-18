@@ -1,10 +1,14 @@
 <resources>
     <!--    NavBar items-->
     <string name="app_name">eMission</string>
-    <string name="title_home">eMissions</string>
+    <string name="title_home">Challenges</string>
+    <string name="subtitle_home">You have saved %1dg of Carbon</string>
     <string name="title_rewards">Rewards</string>
+    <string name="subtitle_rewards">Earn what you deserve</string>
     <string name="title_learning">Learning</string>
+    <string name="subtitle_learning">Learn how to save the world</string>
     <string name="title_you">You</string>
+    <string name="subtitle_you">Track your progress &amp; achievements</string>
 
     <!--    Action Bar items-->
     <string name="title_settings">Settings</string>

@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_learning" />
     <fragment
         android:id="@+id/navigation_you"
-        android:name="com.wildcard.eMission.YouFragment"
+        android:name="com.wildcard.eMission.ui.you.YouFragment"
         android:label="@string/title_you"
         tools:layout="@layout/fragment_you" />
 </navigation>

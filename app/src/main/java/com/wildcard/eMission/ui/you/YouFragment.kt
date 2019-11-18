@@ -1,4 +1,4 @@
-package com.wildcard.eMission.ui.learning
+package com.wildcard.eMission.ui.you
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,20 +13,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 
-class LearningFragment : Fragment() {
+class YouFragment : Fragment() {
 
-    private lateinit var learningViewModel: LearningViewModel
+    private lateinit var youViewModel: YouViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        learningViewModel =
-            ViewModelProviders.of(this).get(LearningViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_learning, container, false)
-        val textView: TextView = root.findViewById(R.id.text_learn)
-        learningViewModel.text.observe(this, Observer {
+        youViewModel =
+            ViewModelProviders.of(this).get(YouViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_you, container, false)
+        val textView: TextView = root.findViewById(R.id.text_you)
+        youViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root
@@ -34,10 +34,9 @@ class LearningFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setupActionBar()
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_3)
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_3)
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_4)
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_4)
     }
 
     private fun setupActionBar() {
@@ -45,13 +44,13 @@ class LearningFragment : Fragment() {
 
         val actionBarTitle = actionBar?.findViewById<TextView>(R.id.actionbar_title)
         val actionBarSubtitle = actionBar?.findViewById<TextView>(R.id.actionbar_subtitle)
-        actionBarTitle?.text = getString(R.string.title_learning)
-        actionBarSubtitle?.text = getString(R.string.subtitle_learning)
+        actionBarTitle?.text = getString(R.string.title_you)
+        actionBarSubtitle?.text = getString(R.string.subtitle_you)
 
         Utils.setGradientTextColor(
             actionBarTitle!!,
-            context!!.getColor(R.color.colorPrimary_green),
-            context!!.getColor(R.color.colorPrimary_yellow)
+            context!!.getColor(R.color.colorPrimary_red),
+            context!!.getColor(R.color.colorPrimary_blue)
         )
     }
 }

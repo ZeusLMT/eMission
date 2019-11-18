@@ -9,8 +9,6 @@
     <color name="colorPrimary_red">#EB5757</color>
     <color name="colorPrimary_yellow">#F2C94C</color>
 
-    <color name="textColor">@color/darkGray</color>
-
 
     <color name="darkGray">#4D4D4D</color>
     <color name="lightGray">#8D8D8D</color>

@@ -5,8 +5,8 @@ data class Challenge (
     val name: String,
     val description: String,
     val points: Int,
-    val status: CompleteStatus,
-    val info: Info,
+    var status: CompleteStatus,
+    val info: Info?,
     val matchingLifestyle: Lifestyle
 )
 

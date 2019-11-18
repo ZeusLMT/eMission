@@ -1,9 +1,11 @@
 package com.wildcard.eMission.ui.rewards
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import kotlinx.android.synthetic.main.fragment_rewards.*
 
 class RewardsFragment : Fragment() {
 
@@ -22,8 +25,6 @@ class RewardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        rewardsViewModel =
-            ViewModelProviders.of(this).get(RewardsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_rewards, container, false)
         val textView: TextView = root.findViewById(R.id.text_rewards)
         rewardsViewModel.text.observe(this, Observer {
@@ -34,9 +35,17 @@ class RewardsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        rewardsViewModel =
+            ViewModelProviders.of(this).get(RewardsViewModel::class.java)
+
         setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_2)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_2)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
     }
 
     private fun setupActionBar() {
@@ -52,5 +61,14 @@ class RewardsFragment : Fragment() {
             context!!.getColor(R.color.colorPrimary_yellow),
             context!!.getColor(R.color.colorPrimary_red)
         )
+
+        val optionalLayout = actionBar.findViewById<LinearLayout>(R.id.optional_layout)
+        if (optionalLayout.childCount == 0) {
+            optionalLayout.gravity = Gravity.END
+            val child = layoutInflater.inflate(R.layout.points_display, optionalLayout)
+            rewardsViewModel.userPoints.observe( this, Observer {
+                child.findViewById<TextView>(R.id.points_display_textView)?.text = it.toString()
+            })
+        }
     }
 }

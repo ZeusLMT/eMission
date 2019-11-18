@@ -10,4 +10,6 @@ class RewardsViewModel : ViewModel() {
         value = "This is Rewards Fragment"
     }
     val text: LiveData<String> = _text
+
+    val userPoints = MutableLiveData<Int>().apply { value = 2500 }
 }

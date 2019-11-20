@@ -4,10 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.model.Challenge
@@ -29,15 +28,21 @@ class ChallengesListAdapter (
     class ViewHolder (
         private val itemView: View,
         val title: TextView = itemView.findViewById(R.id.challenge_title_textView),
-        val points: TextView = itemView.findViewById(R.id.challenge_points_textView),
+        private val pointsLayout: LinearLayout = itemView.findViewById(R.id.challenge_points_layout),
+        val points: TextView = pointsLayout.findViewById(R.id.points_display_textView),
         val progressBar: ProgressBar = itemView.findViewById(R.id.challenge_progress_progressBar),
         val checkpointIcon: ImageView = itemView.findViewById(R.id.challenge_checkpoint_imageView2),
         val infoIcon: ImageButton = itemView.findViewById(R.id.info_imageButton)
         ) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.challenges_list_item_view, parent, false)
-        return ViewHolder(itemView)
+        val itemViewDataBinding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.challenges_list_item_view,
+            parent,
+            false
+        )
+        return ViewHolder(itemViewDataBinding.root)
     }
 
     override fun getItemCount(): Int {

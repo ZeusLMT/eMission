@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.wildcard.eMission.BR
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
-import kotlinx.android.synthetic.main.fragment_rewards.*
 
 class RewardsFragment : Fragment() {
 
@@ -65,9 +67,16 @@ class RewardsFragment : Fragment() {
         val optionalLayout = actionBar.findViewById<LinearLayout>(R.id.optional_layout)
         if (optionalLayout.childCount == 0) {
             optionalLayout.gravity = Gravity.END
-            val child = layoutInflater.inflate(R.layout.points_display, optionalLayout)
+            val child = DataBindingUtil.inflate<ViewDataBinding>(
+                layoutInflater,
+                R.layout.points_display,
+                optionalLayout,
+                true
+            )
+            child.setVariable(BR.small, false)
             rewardsViewModel.userPoints.observe( this, Observer {
-                child.findViewById<TextView>(R.id.points_display_textView)?.text = it.toString()
+                child.root.findViewById<TextView>(R.id.points_display_textView)?.text =
+                    it.toString()
             })
         }
     }

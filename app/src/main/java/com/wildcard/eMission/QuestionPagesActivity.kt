@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayout
 import com.wildcard.eMission.MainActivity
 import com.wildcard.eMission.R
 import kotlinx.android.synthetic.main.activity_question_pages.*
@@ -17,10 +18,10 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_pages)
 
-        /*
+
         for(i in 0 until amoutOfTabs){
             questions_view_tablayout.addTab(questions_view_tablayout.newTab().setIcon(R.drawable.tab_selector))
-        }*/
+        }
 
         val livingStyleFragment = LivingStyleFragment()
 
@@ -37,6 +38,9 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
         supportFragmentManager.beginTransaction()
                 .replace(R.id.questions_view_fragment_container,transportationFragment)
                 .commit()
+
+        changeTab(1)
+
     }
 
     override fun toDietFragment() {
@@ -46,6 +50,8 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
         supportFragmentManager.beginTransaction()
                 .replace(R.id.questions_view_fragment_container,dietFragment)
                 .commit()
+
+        changeTab(2)
     }
 
     //after last question fragment return to main activity
@@ -54,6 +60,13 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
+
+    private fun changeTab(tab_index: Int){
+        val tab: TabLayout.Tab? = questions_view_tablayout.getTabAt(tab_index)
+        tab?.select()
+    }
+
+
 
 }
 

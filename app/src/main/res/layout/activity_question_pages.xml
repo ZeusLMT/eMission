@@ -11,12 +11,16 @@
             android:id="@+id/questions_view_fragment_container">
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.tabs.TabLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:tabGravity="center"
             app:tabBackground="@drawable/tab_selector"
             android:elevation="10dp"
             android:id="@+id/questions_view_tablayout"
+            app:tabIndicator="@null"
+            android:background="@android:color/transparent"
             />
 </androidx.constraintlayout.widget.ConstraintLayout>

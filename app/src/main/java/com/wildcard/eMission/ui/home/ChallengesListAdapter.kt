@@ -54,10 +54,10 @@ class ChallengesListAdapter (
         holder.points.text = challenges[position].points.toString()
 
         var progress = 0
-        when (challenges[position].status) {
-            CompleteStatus.UNSTARTED -> progress = 0
-            CompleteStatus.ONGOING -> progress = 50
-            CompleteStatus.COMPLETE -> progress = 100
+        progress = when (challenges[position].status) {
+            CompleteStatus.UNSTARTED -> 0
+            CompleteStatus.ONGOING -> 50
+            CompleteStatus.COMPLETE -> 100
         }
         holder.progressBar.setProgress(progress, false)
 

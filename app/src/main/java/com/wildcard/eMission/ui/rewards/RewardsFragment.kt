@@ -13,14 +13,17 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wildcard.eMission.BR
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import kotlinx.android.synthetic.main.fragment_rewards.*
+import timber.log.Timber
 
 class RewardsFragment : Fragment() {
-
     private lateinit var rewardsViewModel: RewardsViewModel
+    private lateinit var rewardGroupsAdapter: RewardGroupsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +50,14 @@ class RewardsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        setupRewardsList()
+
+        Timber.d("Rewards size: ${rewardsViewModel.rewardsList.value?.size}")
+
+        if (rewardsViewModel.rewardsList.value == null) {
+            getRewardsList()
+        }
 
     }
 
@@ -79,5 +90,20 @@ class RewardsFragment : Fragment() {
                     it.toString()
             })
         }
+    }
+
+    private fun getRewardsList() {
+        rewardsViewModel.getRewardsList()
+    }
+
+    private fun setupRewardsList() {
+        rewardGroupsAdapter = RewardGroupsAdapter()
+        rewards_group_recyclerView.layoutManager = LinearLayoutManager(context)
+        rewards_group_recyclerView.adapter = rewardGroupsAdapter
+
+        rewardsViewModel.rewardsList.observe(this, Observer { rewardsList ->
+            Timber.d("Rewards List changed")
+            rewardGroupsAdapter.onDataChanged(rewardsList)
+        })
     }
 }

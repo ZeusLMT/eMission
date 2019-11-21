@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -19,6 +20,7 @@ import com.wildcard.eMission.BR
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 import com.wildcard.eMission.model.Reward
+import com.wildcard.eMission.model.RewardStatus
 import kotlinx.android.synthetic.main.fragment_rewards.*
 import timber.log.Timber
 
@@ -103,7 +105,27 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
         })
     }
 
-    override fun onRewardClaimed(reward: Reward, position: Int) {
-        Timber.d("Reward: ${reward.name} claimed")
+    override fun onRewardClaimed(reward: Reward, position: Int, adapterCallback: RewardsAdapter) {
+        val currentPoints = rewardsViewModel.userPoints
+        if (currentPoints.value!! >= reward.points) {
+            currentPoints.value = currentPoints.value!! - reward.points
+            reward.status = RewardStatus.CLAIMED
+            Timber.d("${rewardsViewModel.userPoints.value}")
+            adapterCallback.notifyItemChanged(position)
+        } else {
+            showPurchaseDialog()
+        }
+    }
+
+    private fun showPurchaseDialog() {
+        val builder: AlertDialog.Builder? = activity?.let {
+            AlertDialog.Builder(it)
+        }
+
+        builder?.setMessage(R.string.reward_claim_dialog_message)
+            ?.setTitle(R.string.reward_claim_dialog_title)
+            ?.setNeutralButton(R.string.dialog_cancel, null)
+            ?.create()
+            ?.show()
     }
 }

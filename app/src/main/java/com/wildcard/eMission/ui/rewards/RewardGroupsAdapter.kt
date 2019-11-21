@@ -81,7 +81,7 @@ class RewardGroupsAdapter(
         childAdapters.clear()
         rewardTiers.forEach { tier ->
             val rewards = rewardsList.filter { reward -> reward.tier == tier }
-            childAdapters.add(RewardsAdapter(rewards, listener))
+            childAdapters.add(RewardsAdapter(appContext, rewards, listener))
         }
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ class ChallengesListAdapter (
 
     class ViewHolder (
         private val itemView: View,
+        val cardView: CardView = itemView.findViewById(R.id.challenge_card_cardView),
         val title: TextView = itemView.findViewById(R.id.challenge_title_textView),
         private val pointsLayout: LinearLayout = itemView.findViewById(R.id.challenge_points_layout),
         val points: TextView = pointsLayout.findViewById(R.id.points_display_textView),
@@ -53,8 +55,7 @@ class ChallengesListAdapter (
         (holder as ViewHolder).title.text = challenges[position].description
         holder.points.text = challenges[position].points.toString()
 
-        var progress = 0
-        progress = when (challenges[position].status) {
+        val progress: Int = when (challenges[position].status) {
             CompleteStatus.UNSTARTED -> 0
             CompleteStatus.ONGOING -> 50
             CompleteStatus.COMPLETE -> 100
@@ -63,8 +64,12 @@ class ChallengesListAdapter (
 
         if (holder.progressBar.progress == 100) {
             holder.checkpointIcon.setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint_filled))
+            holder.cardView.alpha = 0.6f
+            holder.checkpointIcon.isEnabled = false
         } else {
             holder.checkpointIcon.setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint))
+            holder.cardView.alpha = 1f
+            holder.checkpointIcon.isEnabled = true
         }
 
 

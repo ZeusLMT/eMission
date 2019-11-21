@@ -6,6 +6,7 @@ data class Reward (
     val tier: RewardTier,
     val type: RewardType,
     val points: Int,
+    var status: RewardStatus,
     val content: Any?
 )
 
@@ -27,4 +28,10 @@ enum class RewardTier {
     COLONEL_ENVIRONMENT,
     GENERAL_CLIMATE,
     PRESIDENT_CARBON_NEUTRAL
+}
+
+enum class RewardStatus {
+    AVAILABLE,
+    UNAVAILABLE,
+    CLAIMED
 }

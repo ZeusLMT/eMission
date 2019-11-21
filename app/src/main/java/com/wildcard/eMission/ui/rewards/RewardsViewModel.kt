@@ -16,7 +16,9 @@ class RewardsViewModel : ViewModel() {
 
     val userPoints = MutableLiveData<Int>().apply { value = 2500 }
 
-    var rewardsList = MutableLiveData<ArrayList<Reward>>()
+    val rewardsList = MutableLiveData<ArrayList<Reward>>()
+
+
 
     fun getRewardsList() {
         val rewards = ArrayList<Reward>()
@@ -27,6 +29,7 @@ class RewardsViewModel : ViewModel() {
                 name = "Private Green title",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.TITLE,
+                points = 500,
                 content = "Private Green"
             )
         )
@@ -37,6 +40,7 @@ class RewardsViewModel : ViewModel() {
                 name = "Private Green picture",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.PROFILE_PIC,
+                points = 500,
                 content = "New profile picture"
             )
         )
@@ -47,6 +51,7 @@ class RewardsViewModel : ViewModel() {
                 name = "Corporal Bee title",
                 tier = RewardTier.CORPORAL_BEE,
                 type = RewardType.TITLE,
+                points = 500,
                 content = "Corporal Bee"
             )
         )
@@ -57,6 +62,7 @@ class RewardsViewModel : ViewModel() {
                 name = "Corporal Bee challenges",
                 tier = RewardTier.CORPORAL_BEE,
                 type = RewardType.CHALLENGE_PACK,
+                points = 500,
                 content = "New Challenges Pack"
             )
         )
@@ -67,6 +73,7 @@ class RewardsViewModel : ViewModel() {
                 name = "Sergeant Flower title",
                 tier = RewardTier.SERGEANT_FLOWER,
                 type = RewardType.TITLE,
+                points = 1000,
                 content = "Sergeant Flower"
             )
         )
@@ -76,6 +83,7 @@ class RewardsViewModel : ViewModel() {
                 rId = "6",
                 name = "Sergeant Flower background",
                 tier = RewardTier.SERGEANT_FLOWER,
+                points = 1000,
                 type = RewardType.CHALLENGE_PACK,
                 content = "New background"
             )

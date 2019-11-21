@@ -18,10 +18,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wildcard.eMission.BR
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import com.wildcard.eMission.model.Reward
 import kotlinx.android.synthetic.main.fragment_rewards.*
 import timber.log.Timber
 
-class RewardsFragment : Fragment() {
+class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     private lateinit var rewardsViewModel: RewardsViewModel
     private lateinit var rewardGroupsAdapter: RewardGroupsAdapter
 
@@ -30,12 +31,7 @@ class RewardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_rewards, container, false)
-        val textView: TextView = root.findViewById(R.id.text_rewards)
-        rewardsViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
-        return root
+        return inflater.inflate(R.layout.fragment_rewards, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +93,7 @@ class RewardsFragment : Fragment() {
     }
 
     private fun setupRewardsList() {
-        rewardGroupsAdapter = RewardGroupsAdapter()
+        rewardGroupsAdapter = RewardGroupsAdapter(context!!, this)
         rewards_group_recyclerView.layoutManager = LinearLayoutManager(context)
         rewards_group_recyclerView.adapter = rewardGroupsAdapter
 
@@ -105,5 +101,9 @@ class RewardsFragment : Fragment() {
             Timber.d("Rewards List changed")
             rewardGroupsAdapter.onDataChanged(rewardsList)
         })
+    }
+
+    override fun onRewardClaimed(reward: Reward, position: Int) {
+        Timber.d("Reward: ${reward.name} claimed")
     }
 }

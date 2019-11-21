@@ -1,2 +1,79 @@
 package com.wildcard.eMission.ui.rewards
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import com.wildcard.eMission.R
+import com.wildcard.eMission.model.Reward
+import com.wildcard.eMission.model.RewardType
+
+class RewardsAdapter(
+    private var rewards: List<Reward>,
+    private val listener: RewardsListListener
+) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    interface RewardsListListener {
+        fun onRewardClaimed(reward: Reward, position: Int)
+    }
+
+    class ViewHolder(
+        private val itemView: View,
+        val rewardImg: ImageView = itemView.findViewById(R.id.reward_img_imageView),
+        val rewardTitle: TextView = itemView.findViewById(R.id.reward_header_textView),
+        private val rewardPointsLayout: LinearLayout = itemView.findViewById(R.id.points_display_layout),
+        val rewardPoints: TextView = rewardPointsLayout.findViewById(R.id.points_display_textView),
+        val claimButton: Button = itemView.findViewById(R.id.reward_claim_button)
+
+    ) : RecyclerView.ViewHolder(itemView)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val itemViewDataBinding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.rewards_item_view,
+            parent,
+            false
+        )
+        return ViewHolder(itemViewDataBinding.root)
+    }
+
+    override fun getItemCount(): Int {
+        return rewards.size
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as ViewHolder).rewardTitle.text = rewards[position].name
+        holder.rewardPoints.text = rewards[position].points.toString()
+
+        when (rewards[position].type) {
+            RewardType.TITLE -> Picasso.get().load("file:///android_asset/rewards_title.jpg").resize(
+                200,
+                200
+            ).into(holder.rewardImg)
+            RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
+                200,
+                200
+            ).into(holder.rewardImg)
+            RewardType.CHALLENGE_PACK -> Picasso.get().load("file:///android_asset/rewards_pack.jpg").resize(
+                200,
+                200
+            ).into(holder.rewardImg)
+            else -> Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
+                200,
+                200
+            ).into(holder.rewardImg)
+        }
+
+        holder.claimButton.setOnClickListener {
+            listener.onRewardClaimed(rewards[position], position)
+        }
+    }
+}

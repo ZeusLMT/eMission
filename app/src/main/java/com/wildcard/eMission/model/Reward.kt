@@ -5,6 +5,7 @@ data class Reward (
     val name: String,
     val tier: RewardTier,
     val type: RewardType,
+    val points: Int,
     val content: Any?
 )
 

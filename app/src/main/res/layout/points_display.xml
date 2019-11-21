@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableStart="@{small ? @drawable/points_icon_small  : @drawable/points_icon}"
-            android:drawablePadding="8dp"
+            android:drawablePadding="2dp"
             android:singleLine="true"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"

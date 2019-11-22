@@ -34,8 +34,8 @@ class YouFragment : Fragment() {
         })
 
         Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
-            200,
-            200
+            500,
+            500
         ).into(root.findViewById<ImageView>(R.id.profile_picture_imageView))
         return root
     }

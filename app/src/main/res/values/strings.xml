@@ -12,7 +12,7 @@
 
     <!--    Dialog strings-->
     <string name="all_complete_dialog_title">Well done!</string>
-    <string name="all_complete_dialog_message">You\' ve completed today\'s challenges.</string>
+    <string name="all_complete_dialog_message">You\'ve completed today\'s challenges.</string>
 
     <string name="reward_claim_dialog_title">Not enough green points</string>
     <string name="reward_claim_dialog_message">Complete more challenges to earn more!</string>

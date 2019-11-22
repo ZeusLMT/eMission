@@ -75,20 +75,20 @@ class RewardsAdapter(
 
         when (rewards[position].type) {
             RewardType.TITLE -> Picasso.get().load("file:///android_asset/rewards_title.jpg").resize(
-                200,
-                200
+                500,
+                500
             ).into(holder.rewardImg)
             RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
-                200,
-                200
+                500,
+                500
             ).into(holder.rewardImg)
             RewardType.CHALLENGE_PACK -> Picasso.get().load("file:///android_asset/rewards_pack.jpg").resize(
-                200,
-                200
+                500,
+                500
             ).into(holder.rewardImg)
             else -> Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
-                200,
-                200
+                500,
+                500
             ).into(holder.rewardImg)
         }
 

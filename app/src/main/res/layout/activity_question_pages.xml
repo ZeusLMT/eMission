@@ -22,5 +22,6 @@
             android:id="@+id/questions_view_tablayout"
             app:tabIndicator="@null"
             android:background="@android:color/transparent"
+            android:foregroundTint="#000000"
             />
 </androidx.constraintlayout.widget.ConstraintLayout>

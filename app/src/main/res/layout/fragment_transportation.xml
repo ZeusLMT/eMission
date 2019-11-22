@@ -16,6 +16,7 @@
         android:id="@+id/transportation_fragment_text_view"
         android:textSize="24sp"
         android:gravity="center"
+        android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/fragment_transportation_bus"
+        android:textColor="@color/colorPrimary_red"
         android:background="@drawable/customborder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -42,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/fragment_transportation_car"
+        android:textColor="@color/colorPrimary_red"
         android:background="@drawable/customborder"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/fragment_transportation_train"
+        android:textColor="@color/colorPrimary_red"
         android:background="@drawable/customborder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -64,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/fragment_transportation_bicycle"
+        android:textColor="@color/colorPrimary_red"
         android:background="@drawable/customborder"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +92,7 @@
         <ImageView
             android:layout_width="180dp"
             android:layout_height="180dp"
-            android:src="@drawable/transportationtest"
+            android:src="@drawable/transportationtest2"
             />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

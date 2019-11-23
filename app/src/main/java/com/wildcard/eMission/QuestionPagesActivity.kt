@@ -2,12 +2,11 @@ package fi.metropolia.wildcard.emission
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
-import com.wildcard.eMission.MainActivity
 import com.wildcard.eMission.R
+import com.wildcard.eMission.YouMayStartActivity
 import kotlinx.android.synthetic.main.activity_question_pages.*
 
 // interfaces are for getting information from fragments to activity
@@ -67,7 +66,7 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
     //after last question fragment return to main activity
     override fun returnToMainActivity() {
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, YouMayStartActivity::class.java)
         startActivity(intent)
     }
 

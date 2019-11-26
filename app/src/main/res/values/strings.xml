@@ -1,6 +1,6 @@
 <resources>
     <!--    NavBar items-->
-    <string name="app_name">eMission</string>
+    <string name="app_name" translatable="false">eMission</string>
     <string name="title_home">Challenges</string>
     <string name="subtitle_home">You have saved %1dg of Carbon</string>
     <string name="title_rewards">Rewards</string>

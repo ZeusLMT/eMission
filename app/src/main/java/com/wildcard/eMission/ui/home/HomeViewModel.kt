@@ -1,16 +1,11 @@
 package com.wildcard.eMission.ui.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.wildcard.eMission.model.*
 
 class HomeViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Home Fragment"
-    }
-    val text: LiveData<String> = _text
+    val carbonSaved = MutableLiveData<Int>().apply { value = 2259 }
 
     var todayChallenges = MutableLiveData<ArrayList<Challenge>>()
 
@@ -21,7 +16,7 @@ class HomeViewModel : ViewModel() {
                 cId = "1",
                 name = "Tofu vs. Meat",
                 description = "Eat tofu instead of meat",
-                points = 150,
+                points = 915,
                 status = CompleteStatus.UNSTARTED,
                 info = null,
                 matchingLifestyle = Lifestyle(
@@ -39,7 +34,7 @@ class HomeViewModel : ViewModel() {
                 cId = "2",
                 name = "Take a bus",
                 description = "Take bus to work",
-                points = 300,
+                points = 1839,
                 status = CompleteStatus.UNSTARTED,
                 info = null,
                 matchingLifestyle = Lifestyle(
@@ -57,7 +52,7 @@ class HomeViewModel : ViewModel() {
                 cId = "3",
                 name = "No TV for today",
                 description = "Don't watch TV for an evening",
-                points = 180,
+                points = 205,
                 status = CompleteStatus.UNSTARTED,
                 info = null,
                 matchingLifestyle = Lifestyle(
@@ -75,7 +70,7 @@ class HomeViewModel : ViewModel() {
                 cId = "4",
                 name = "I rather walk…",
                 description = "Walk 4000 steps",
-                points = 450,
+                points = 2259,
                 status = CompleteStatus.COMPLETE,
                 info = null,
                 matchingLifestyle = Lifestyle(

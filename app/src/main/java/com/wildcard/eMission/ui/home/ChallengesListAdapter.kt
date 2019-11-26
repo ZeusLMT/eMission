@@ -4,10 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.cardview.widget.CardView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.model.Challenge
@@ -28,16 +28,23 @@ class ChallengesListAdapter (
 
     class ViewHolder (
         private val itemView: View,
+        val cardView: CardView = itemView.findViewById(R.id.challenge_card_cardView),
         val title: TextView = itemView.findViewById(R.id.challenge_title_textView),
-        val points: TextView = itemView.findViewById(R.id.challenge_points_textView),
+        private val pointsLayout: LinearLayout = itemView.findViewById(R.id.challenge_points_layout),
+        val points: TextView = pointsLayout.findViewById(R.id.points_display_textView),
         val progressBar: ProgressBar = itemView.findViewById(R.id.challenge_progress_progressBar),
         val checkpointIcon: ImageView = itemView.findViewById(R.id.challenge_checkpoint_imageView2),
         val infoIcon: ImageButton = itemView.findViewById(R.id.info_imageButton)
         ) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.challenges_list_item_view, parent, false)
-        return ViewHolder(itemView)
+        val itemViewDataBinding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.challenges_list_item_view,
+            parent,
+            false
+        )
+        return ViewHolder(itemViewDataBinding.root)
     }
 
     override fun getItemCount(): Int {
@@ -48,18 +55,21 @@ class ChallengesListAdapter (
         (holder as ViewHolder).title.text = challenges[position].description
         holder.points.text = challenges[position].points.toString()
 
-        var progress = 0
-        when (challenges[position].status) {
-            CompleteStatus.UNSTARTED -> progress = 0
-            CompleteStatus.ONGOING -> progress = 50
-            CompleteStatus.COMPLETE -> progress = 100
+        val progress: Int = when (challenges[position].status) {
+            CompleteStatus.UNSTARTED -> 0
+            CompleteStatus.ONGOING -> 50
+            CompleteStatus.COMPLETE -> 100
         }
         holder.progressBar.setProgress(progress, false)
 
         if (holder.progressBar.progress == 100) {
             holder.checkpointIcon.setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint_filled))
+            holder.cardView.alpha = 0.6f
+            holder.checkpointIcon.isEnabled = false
         } else {
             holder.checkpointIcon.setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint))
+            holder.cardView.alpha = 1f
+            holder.checkpointIcon.isEnabled = true
         }
 
 

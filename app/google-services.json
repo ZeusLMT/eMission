@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "1045565430067",
+    "firebase_url": "https://emission-915ae.firebaseio.com",
+    "project_id": "emission-915ae",
+    "storage_bucket": "emission-915ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045565430067:android:ab2b001843ec291bab0646",
+        "android_client_info": {
+          "package_name": "com.wildcard.eMission"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045565430067-5e87e5o9jdii8vp7dsnnirol9d4hc1p0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wildcard.eMission",
+            "certificate_hash": "b438a2d2e941382231ff7b4f0b62c0d1c401567a"
+          }
+        },
+        {
+          "client_id": "1045565430067-6u5d75niba6hqdh5va8j3splhcuukee9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wildcard.eMission",
+            "certificate_hash": "0d6cebf4d8e3f0b32bfe7a8e69e3dfcfe2d2ead8"
+          }
+        },
+        {
+          "client_id": "1045565430067-oervd8lfba4una8ocnql8goosm8ms4p2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACqYazpkZioSeMzQ2znxuhZBDOx7qMjWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045565430067-oervd8lfba4una8ocnql8goosm8ms4p2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

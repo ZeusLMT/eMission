@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.model.Challenge
 import com.wildcard.eMission.model.CompleteStatus
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ChallengesListAdapter (
@@ -45,7 +47,13 @@ class ChallengesListAdapter (
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).title.text = challenges[position].description
+        //language detection
+        val language = Locale.getDefault().displayLanguage
+        if(language.equals("suomi")) {
+            (holder as ViewHolder).title.text = challenges[position].description_fin
+        }else {
+            (holder as ViewHolder).title.text = challenges[position].description
+        }
         holder.points.text = challenges[position].points.toString()
 
         var progress = 0

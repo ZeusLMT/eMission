@@ -13,18 +13,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
+import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import kotlinx.android.synthetic.main.fragment_you.*
 
 class YouFragment : Fragment() {
-
     private lateinit var youViewModel: YouViewModel
+    private lateinit var activityViewModel: ActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
         youViewModel =
             ViewModelProviders.of(this).get(YouViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_you, container, false)
@@ -50,6 +53,9 @@ class YouFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        profile_title_textView.setOnClickListener {
+            profile_title_textView.text = activityViewModel.user.value?.name.toString()
+        }
     }
 
     private fun setupActionBar() {

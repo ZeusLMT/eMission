@@ -7,25 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
+import com.wildcard.eMission.Firebase.Authentication
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var activityViewModel: ActivityViewModel
-    //Google Login Request Code
-    private val RC_SIGN_IN = 7
-    //Google Sign In Client
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
-    //Firebase Auth
-    private lateinit var mAuth: FirebaseAuth
+    private lateinit var authentication: Authentication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,81 +38,58 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel::class.java)
+
+        authentication = Authentication(this)
     }
 
     override fun onStart() {
         super.onStart()
 
         // Check if user is signed in (non-null) and update UI accordingly.
-        mAuth = activityViewModel.firebaseAuth!!
-        val currentUser = mAuth.currentUser
-        if (currentUser == null) {
+        val currentUser = Authentication.firebaseAuth.currentUser
+        if (currentUser != null) {
             updateUI(currentUser)
+            parseUserInfo(currentUser)
         } else {
-            googleSignIn()
+            authentication.googleSignIn { intent, requestCode ->
+                startActivityForResult(intent, requestCode)
+            }
         }
 
-    }
-
-    private fun googleSignIn() {
-        Toast.makeText(this, "Signing in with Google account", Toast.LENGTH_SHORT).show()
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        val signInIntent = mGoogleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account!!)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Timber.w("Google sign in failed: $e")
-                // ...
+        if (requestCode == Authentication.RC_SIGN_IN) {
+            Timber.d("Sign in success")
+            authentication.firebaseAuthWithGoogle(data) { firebaseUser ->
+                parseUserInfo(firebaseUser)
             }
-
         }
     }
 
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Timber.d("firebaseAuthWithGoogle:%s", acct.id!!)
-
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        mAuth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Timber.d("signInWithCredential:success")
-                    val user = mAuth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Timber.w("signInWithCredential:failure: ${task.exception}")
-                    Toast.makeText(this, "Auth Failed", Toast.LENGTH_LONG).show()
-                    updateUI(null)
-                }
-
-                // ...
-            }
-    }
-
-    fun updateUI(user: FirebaseUser?) {
+    private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             //Do your Stuff
             Toast.makeText(this, "Hello ${user.displayName}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun parseUserInfo(user: FirebaseUser?) {
+        if (user != null) {
+            Timber.d("parseUserInfo")
+            activityViewModel.user.value?.name = user.displayName!!
+            user.getIdToken(false).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Timber.d("${user.displayName} - ${task.result?.token}")
+                    activityViewModel.user.value?.uId = task.result?.token!!
+                    Timber.d("${activityViewModel.user.value?.name} - ${activityViewModel.user.value?.uId}")
+                }
+            }
+        } else {
+            Timber.d("Invalid user")
         }
     }
 }

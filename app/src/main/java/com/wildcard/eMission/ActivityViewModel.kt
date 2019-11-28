@@ -1,16 +1,30 @@
 package com.wildcard.eMission
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
+import com.wildcard.eMission.model.Lifestyle
+import com.wildcard.eMission.model.User
 
 class ActivityViewModel : ViewModel() {
-    var firebaseAuth: FirebaseAuth? = null
     var firebaseDatabase: FirebaseDatabase? = null
-    var user: FirebaseUser? = null
 
-    init {
-        firebaseAuth = FirebaseAuth.getInstance()
-    }
+    val user = MutableLiveData<User>(
+        User(
+            uId = "",
+            name = "",
+            age = null,
+            carbonFootprint = 0f,
+            rewardPoints = 0,
+            rewards = arrayListOf(),
+            completed_challenges = arrayListOf(),
+            lifestyle = Lifestyle(
+                ageGroup = arrayListOf(),
+                diet = arrayListOf(),
+                transportation = arrayListOf(),
+                housingType = arrayListOf(),
+                powerConsumption = arrayListOf()
+            )
+        )
+    )
 }

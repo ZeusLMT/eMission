@@ -1,11 +1,11 @@
 package com.wildcard.eMission.model
 
 data class User (
-    val uId: String,
-    val name: String,
-    val age: Int?,
-    val carbonFootprint: Float,
-    val rewardPoints: Int,
+    var uId: String,
+    var name: String,
+    var age: Int?,
+    var carbonFootprint: Float,
+    var rewardPoints: Int,
     val rewards: ArrayList<Reward>,
     val completed_challenges: ArrayList<Challenge>,
     val lifestyle: Lifestyle

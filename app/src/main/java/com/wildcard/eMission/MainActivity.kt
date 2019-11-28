@@ -10,6 +10,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseUser
 import com.wildcard.eMission.Firebase.Authentication
+import com.wildcard.eMission.Firebase.Database
+import com.wildcard.eMission.model.User
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -86,10 +88,17 @@ class MainActivity : AppCompatActivity() {
                     Timber.d("${user.displayName} - ${task.result?.token}")
                     activityViewModel.user.value?.uId = task.result?.token!!
                     Timber.d("${activityViewModel.user.value?.name} - ${activityViewModel.user.value?.uId}")
+
+                    writeNewUser(activityViewModel.user.value!!)
                 }
             }
         } else {
             Timber.d("Invalid user")
         }
+    }
+
+    private fun writeNewUser(user: User) {
+        Timber.d("Write")
+        Database.database.child("users").setValue(user)
     }
 }

@@ -44,6 +44,10 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
         setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_1)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_1)
+
+        activityViewModel.userDataUpdated.observe(this, Observer {
+            homeViewModel.carbonSaved.value = activityViewModel.user.carbonSaved.toInt()
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -69,6 +73,7 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
 
         activityViewModel.updateUserData { user ->
             user.carbonSaved += challenge.points
+            user.rewardPoints += challenge.points
         }
 
         homeViewModel.carbonSaved.value = activityViewModel.user.carbonSaved.toInt()

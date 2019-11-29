@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 import com.wildcard.eMission.model.Challenge
@@ -23,6 +24,7 @@ import timber.log.Timber
 
 class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var activityViewModel: ActivityViewModel
     private lateinit var challengesListAdapter: ChallengesListAdapter
 
     override fun onCreateView(
@@ -36,15 +38,12 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProviders.of(activity!!).get(HomeViewModel::class.java)
+        activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
 
         setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_1)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_1)
-
-//        nav_view.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_1)
-//        nav_view.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_1)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -52,24 +51,36 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
 
         setupChallengesList()
 
-        Timber.d("todayChallenges size: ${homeViewModel.todayChallenges.value?.size}")
-
-        if (homeViewModel.todayChallenges.value == null) {
+        if (homeViewModel.todayChallenges.value.isNullOrEmpty()) {
             generateTodayChallenges()
         }
     }
 
     //Implement Challenges List Adapter Listener's functions
     override fun onCheckpointSelected(challenge: Challenge, position: Int) {
-        val allChallenges = homeViewModel.todayChallenges.value
-        if (allChallenges!!.contains(challenge)) {
-            allChallenges[position].status = CompleteStatus.COMPLETE
+        val todayChallenges = homeViewModel.todayChallenges.value
+        if (todayChallenges!!.contains(challenge)) {
+            challenge.status = when {
+                (challenge.status == CompleteStatus.UNSTARTED && !challenge.singleTask) -> CompleteStatus.ONGOING
+                else -> CompleteStatus.COMPLETE
+            }
         }
         challengesListAdapter.notifyItemChanged(position)
-        homeViewModel.carbonSaved.value = homeViewModel.carbonSaved.value?.plus(challenge.points)
+
+        activityViewModel.updateUserData { user ->
+            user.carbonSaved += challenge.points
+        }
+
+        homeViewModel.carbonSaved.value = activityViewModel.user.carbonSaved.toInt()
+
+        if (challenge.status == CompleteStatus.COMPLETE) {
+            activityViewModel.updateUserData { user ->
+                user.completed_challenges.add(challenge)
+            }
+        }
 
 
-        if (allChallenges.all { it.status == CompleteStatus.COMPLETE }) {
+        if (todayChallenges.all { it.status == CompleteStatus.COMPLETE }) {
             Timber.d("Completed all challenges")
             showCompleteDialog()
         }
@@ -89,6 +100,7 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
             actionBarSubtitle?.text = getString(R.string.subtitle_home, carbonSaved)
 
         })
+        homeViewModel.carbonSaved.value = activityViewModel.user.carbonSaved.toInt()
 
         Utils.setGradientTextColor(
             actionBarTitle!!,
@@ -112,7 +124,26 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     }
 
     private fun generateTodayChallenges() {
-        homeViewModel.generateTodayChallenges()
+        val personalizedChallenges = homeViewModel.allChallenges.filter { challenge ->
+            when {
+                (challenge.diet.isNotEmpty() && !challenge.diet.contains(activityViewModel.user.diet)) -> false
+                (challenge.housingType.isNotEmpty() && !challenge.housingType.contains(
+                    activityViewModel.user.housingType
+                )) -> false
+                (challenge.transportation.isNotEmpty() && challenge.transportation.intersect(
+                    activityViewModel.user.transportation
+                ).isEmpty()) -> false
+                else -> true
+            }
+        }
+        val todayChallenges = arrayListOf<Challenge>()
+        personalizedChallenges.shuffled().subList(0, 3).forEach {
+            it.status = CompleteStatus.UNSTARTED
+            todayChallenges.add(it)
+        }
+
+        homeViewModel.todayChallenges.value?.clear()
+        homeViewModel.todayChallenges.value = todayChallenges
     }
 
     private fun showCompleteDialog() {

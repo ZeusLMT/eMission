@@ -3,10 +3,9 @@ package com.wildcard.eMission
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,5 +29,11 @@ class MainActivity : AppCompatActivity() {
 //        )
 //        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Timber.d("Close application")
     }
 }

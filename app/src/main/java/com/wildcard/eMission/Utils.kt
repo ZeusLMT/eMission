@@ -7,6 +7,8 @@ import timber.log.Timber
 
 class Utils {
     companion object {
+        val PREF_DATE = "LAST_GENERATED_DATE"
+        val PREF_USER = "CURRENT_USER"
 
         fun setGradientTextColor(textView: TextView, colorStart: Int, colorEnd: Int) {
             textView.setTextColor(colorEnd)

@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.BR
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
@@ -26,6 +27,7 @@ import timber.log.Timber
 
 class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     private lateinit var rewardsViewModel: RewardsViewModel
+    private lateinit var activityViewModel: ActivityViewModel
     private lateinit var rewardGroupsAdapter: RewardGroupsAdapter
 
     override fun onCreateView(
@@ -38,12 +40,17 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        rewardsViewModel =
-            ViewModelProviders.of(this).get(RewardsViewModel::class.java)
+        rewardsViewModel = ViewModelProviders.of(this).get(RewardsViewModel::class.java)
+        activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
 
         setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_2)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_2)
+
+        activityViewModel.userDataUpdated.observe(this, Observer {
+            rewardsViewModel.userPoints.value = activityViewModel.user.rewardPoints
+
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -83,15 +90,24 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
                 true
             )
             child.setVariable(BR.small, false)
+
             rewardsViewModel.userPoints.observe( this, Observer {
                 child.root.findViewById<TextView>(R.id.points_display_textView)?.text =
                     it.toString()
             })
+
+            rewardsViewModel.userPoints.value = activityViewModel.user.rewardPoints
         }
     }
 
     private fun getRewardsList() {
-        rewardsViewModel.getRewardsList()
+        val allRewards = rewardsViewModel.getRewardsList()
+        allRewards.forEach { reward ->
+            if (activityViewModel.user.rewards.find { completedReward -> completedReward == reward } != null) {
+                reward.status = RewardStatus.CLAIMED
+            }
+        }
+        rewardsViewModel.rewardsList.value = allRewards
     }
 
     private fun setupRewardsList() {
@@ -106,12 +122,21 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     }
 
     override fun onRewardClaimed(reward: Reward, position: Int, adapterCallback: RewardsAdapter) {
-        val currentPoints = rewardsViewModel.userPoints
-        if (currentPoints.value!! >= reward.points) {
-            currentPoints.value = currentPoints.value!! - reward.points
+        var currentPoints = activityViewModel.user.rewardPoints
+
+        if (currentPoints >= reward.points) {
+            currentPoints -= reward.points
             reward.status = RewardStatus.CLAIMED
-            Timber.d("${rewardsViewModel.userPoints.value}")
+            activityViewModel.user.rewards.add(reward)
+
             adapterCallback.notifyItemChanged(position)
+
+            Timber.d("${rewardsViewModel.userPoints.value}")
+
+            activityViewModel.updateUserData { user ->
+                user.rewardPoints -= reward.points
+            }
+
         } else {
             showPurchaseDialog()
         }

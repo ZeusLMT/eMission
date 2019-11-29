@@ -20,8 +20,7 @@ class RewardsViewModel : ViewModel() {
     val rewardsList = MutableLiveData<ArrayList<Reward>>()
 
 
-
-    fun getRewardsList() {
+    fun getRewardsList(): ArrayList<Reward> {
         val rewards = ArrayList<Reward>()
 
         rewards.add(
@@ -132,6 +131,6 @@ class RewardsViewModel : ViewModel() {
             )
         )
 
-        rewardsList.value = rewards
+        return rewards
     }
 }

@@ -5,9 +5,13 @@ data class Challenge (
     val name: String,
     val description: String,
     val points: Int,
+    val challengePack: String,
+    val singleTask: Boolean,
     var status: CompleteStatus,
     val info: Info?,
-    val matchingLifestyle: Lifestyle
+    val diet: ArrayList<Diet>,
+    val housingType: ArrayList<HousingType>,
+    val transportation: ArrayList<Transportation>
 )
 
 enum class CompleteStatus {

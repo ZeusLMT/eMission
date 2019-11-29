@@ -23,6 +23,10 @@
         <item name="android:textColor">@color/textColor</item>
     </style>
 
-
+    <style name="SectionHeaderAppearance" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
 
 </resources>

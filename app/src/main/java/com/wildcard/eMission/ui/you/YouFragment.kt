@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.squareup.picasso.Picasso
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 
@@ -29,6 +32,11 @@ class YouFragment : Fragment() {
         youViewModel.text.observe(this, Observer {
             textView.text = it
         })
+
+        Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
+            500,
+            500
+        ).into(root.findViewById<ImageView>(R.id.profile_picture_imageView))
         return root
     }
 
@@ -37,6 +45,11 @@ class YouFragment : Fragment() {
         setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_4)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_4)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
     }
 
     private fun setupActionBar() {
@@ -52,5 +65,8 @@ class YouFragment : Fragment() {
             context!!.getColor(R.color.colorPrimary_red),
             context!!.getColor(R.color.colorPrimary_blue)
         )
+
+        val optionalLayout = actionBar.findViewById<LinearLayout>(R.id.optional_layout)
+        optionalLayout.removeAllViews()
     }
 }

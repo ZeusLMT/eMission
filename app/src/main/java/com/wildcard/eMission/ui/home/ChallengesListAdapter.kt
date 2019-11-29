@@ -4,10 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.cardview.widget.CardView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.model.Challenge
@@ -30,16 +30,25 @@ class ChallengesListAdapter (
 
     class ViewHolder (
         private val itemView: View,
+        val cardView: CardView = itemView.findViewById(R.id.challenge_card_cardView),
         val title: TextView = itemView.findViewById(R.id.challenge_title_textView),
-        val points: TextView = itemView.findViewById(R.id.challenge_points_textView),
+        private val pointsLayout: LinearLayout = itemView.findViewById(R.id.challenge_points_layout),
+        val points: TextView = pointsLayout.findViewById(R.id.points_display_textView),
         val progressBar: ProgressBar = itemView.findViewById(R.id.challenge_progress_progressBar),
-        val checkpointIcon: ImageView = itemView.findViewById(R.id.challenge_checkpoint_imageView2),
+        val completeCheckpointIcon: ImageView = itemView.findViewById(R.id.challenge_complete_checkpoint_imageView),
+        val ongoingCheckpointIcon: ImageView = itemView.findViewById(R.id.challenge_ongoing_checkpoint_imageView),
+        val unstartedCheckpointIcon: ImageView = itemView.findViewById(R.id.challenge_unstarted_checkpoint_imageView),
         val infoIcon: ImageButton = itemView.findViewById(R.id.info_imageButton)
         ) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.challenges_list_item_view, parent, false)
-        return ViewHolder(itemView)
+        val itemViewDataBinding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.challenges_list_item_view,
+            parent,
+            false
+        )
+        return ViewHolder(itemViewDataBinding.root)
     }
 
     override fun getItemCount(): Int {
@@ -58,22 +67,70 @@ class ChallengesListAdapter (
 
         var progress = 0
         when (challenges[position].status) {
-            CompleteStatus.UNSTARTED -> progress = 0
-            CompleteStatus.ONGOING -> progress = 50
-            CompleteStatus.COMPLETE -> progress = 100
+            CompleteStatus.UNSTARTED -> {
+                progress = 0
+                holder.unstartedCheckpointIcon.apply {
+                    visibility = View.VISIBLE
+                    setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint))
+                }
+                if (challenges[position].singleTask) {
+                    holder.ongoingCheckpointIcon.visibility = View.GONE
+                } else {
+                    holder.ongoingCheckpointIcon.visibility = View.GONE
+                    holder.ongoingCheckpointIcon.setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint))
+                }
+                holder.completeCheckpointIcon.visibility = View.GONE
+                holder.cardView.alpha = 1f
+            }
+
+            CompleteStatus.ONGOING -> {
+                progress = 50
+                holder.unstartedCheckpointIcon.apply {
+                    visibility = View.VISIBLE
+                    setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint_filled))
+                }
+                holder.ongoingCheckpointIcon.apply {
+                    visibility = View.VISIBLE
+                    setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint))
+                }
+                holder.completeCheckpointIcon.visibility = View.GONE
+                holder.cardView.alpha = 1f
+            }
+
+            CompleteStatus.COMPLETE -> {
+                progress = 100
+                holder.unstartedCheckpointIcon.apply {
+                    visibility = View.VISIBLE
+                    setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint_filled))
+                    isEnabled = false
+                }
+                holder.completeCheckpointIcon.apply {
+                    visibility = View.VISIBLE
+                    setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint_filled))
+                    isEnabled = false
+                }
+                holder.ongoingCheckpointIcon.apply {
+                    visibility = View.VISIBLE
+                    setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint_filled))
+                    isEnabled = false
+                }
+                holder.cardView.alpha = 0.6f
+            }
         }
+
         holder.progressBar.setProgress(progress, false)
 
-        if (holder.progressBar.progress == 100) {
-            holder.checkpointIcon.setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint_filled))
-        } else {
-            holder.checkpointIcon.setImageDrawable(appContext.getDrawable(R.drawable.ic_challenge_checkpoint))
-        }
 
-
-        holder.checkpointIcon.setOnClickListener {
+        holder.unstartedCheckpointIcon.setOnClickListener {
             listener.onCheckpointSelected(challenges[position], position)
         }
+        holder.ongoingCheckpointIcon.setOnClickListener {
+            listener.onCheckpointSelected(challenges[position], position)
+        }
+        holder.completeCheckpointIcon.setOnClickListener {
+            listener.onCheckpointSelected(challenges[position], position)
+        }
+
         holder.infoIcon.setOnClickListener {
             listener.onInfoSelected(challenges[position], position)
         }

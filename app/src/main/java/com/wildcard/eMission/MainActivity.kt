@@ -3,18 +3,20 @@ package com.wildcard.eMission
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import fi.metropolia.wildcard.emission.StartOfQuestionsActivity
+import com.google.gson.Gson
+import com.wildcard.eMission.model.User
 import timber.log.Timber
+import fi.metropolia.wildcard.emission.StartOfQuestionsActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var activityViewModel: ActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,17 +26,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = ""
 
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home,
-//                R.id.navigation_rewards,
-//                R.id.navigation_learning,
-//                R.id.navigation_you
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
 
@@ -53,6 +44,45 @@ class MainActivity : AppCompatActivity() {
         if(!sharedPreference.contains(appartmentPref) || !sharedPreference.contains(transportationPref) || !sharedPreference.contains(dietPref)){
             val startingQuestionsIntent = Intent(this, StartOfQuestionsActivity::class.java)
             startActivity(startingQuestionsIntent)
+        }
+
+        activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel::class.java)
+
+        activityViewModel.writeUserToSP.observe(this, Observer { write ->
+            if (write) {
+                writeUserDataToSP()
+                activityViewModel.writeUserToSP.value = false
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        readUserDataFromSP()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("Close application")
+    }
+
+    private fun writeUserDataToSP() {
+        val jsonString = Gson().toJson(activityViewModel.user)
+
+        val sharedPreferences = getSharedPreferences(Utils.PREF_USER, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Utils.PREF_USER, jsonString).apply()
+    }
+
+    private fun readUserDataFromSP() {
+        val sharedPreferences = getSharedPreferences(Utils.PREF_USER, Context.MODE_PRIVATE)
+        val jsonString = sharedPreferences.getString(Utils.PREF_USER, "")!!
+
+        if (jsonString.isNotEmpty()) {
+            val user = Gson().fromJson<User>(jsonString, User::class.java)
+            activityViewModel.user = user
+            activityViewModel.userDataUpdated.value = !activityViewModel.userDataUpdated.value!!
         }
     }
 }

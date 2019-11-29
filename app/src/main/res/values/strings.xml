@@ -10,8 +10,23 @@
     <string name="title_you">You</string>
     <string name="subtitle_you">Track your progress &amp; achievements</string>
 
+    <!--    Dialog strings-->
+    <string name="all_complete_dialog_title">Well done!</string>
+    <string name="all_complete_dialog_message">You\'ve completed today\'s challenges.</string>
+
+    <string name="reward_claim_dialog_title">Not enough green points</string>
+    <string name="reward_claim_dialog_message">Complete more challenges to earn more!</string>
+
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+
     <!--    Action Bar items-->
     <string name="title_settings">Settings</string>
+
+    <!--    Rewards Fragment strings-->
+    <string name="claim_button">Claim</string>
+    <string name="reward_claimed_text">You\'ve earned it</string>
+
 
     <!-- starting questions pages -->
     <string name="fragment_living_style_question">Do you live in an apartment?</string>

@@ -98,31 +98,31 @@ class RewardsViewModel : ViewModel() {
         rewards.add(
             Reward(
                 rId = "7",
-                name = "Sergeant Flower Title",
+                name = "Captain Wood Title",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 2000,
                 type = RewardType.TITLE,
                 status = RewardStatus.AVAILABLE,
-                content = "New background"
+                content = "Captain Wood"
             )
         )
 
         rewards.add(
             Reward(
                 rId = "8",
-                name = "Sergeant Flower profile picture",
+                name = "Captain Wood profile picture",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 3000,
                 type = RewardType.PROFILE_PIC,
                 status = RewardStatus.AVAILABLE,
-                content = "New background"
+                content = "New profile picture"
             )
         )
 
         rewards.add(
             Reward(
                 rId = "9",
-                name = "Sergeant Flower background",
+                name = "Captain Wood background",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 3000,
                 type = RewardType.BACKGROUND,

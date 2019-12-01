@@ -9,29 +9,27 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
+import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import com.wildcard.eMission.model.RewardType
+import kotlinx.android.synthetic.main.fragment_you.*
 
 class YouFragment : Fragment() {
-
     private lateinit var youViewModel: YouViewModel
+    private lateinit var activityViewModel: ActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        youViewModel =
-            ViewModelProviders.of(this).get(YouViewModel::class.java)
+        youViewModel = ViewModelProviders.of(this).get(YouViewModel::class.java)
+        activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_you, container, false)
-        val textView: TextView = root.findViewById(R.id.text_you)
-        youViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
 
         Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
             500,
@@ -49,7 +47,81 @@ class YouFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupStreak()
+        setupReward()
+        setupChallenge()
+        setupTitle()
+    }
 
+    private fun setupTitle() {
+        profile_title_textView.text = activityViewModel.user.name
+        val rewardList = activityViewModel.user.rewards
+        if (rewardList.isNotEmpty()) {
+            val titles = rewardList.filter { reward ->
+                reward.type == RewardType.TITLE
+            }
+            if (titles.isNotEmpty()) {
+                profile_title_textView.text = titles.last().content as String
+            }
+        }
+    }
+
+    private fun setupReward() {
+        val rewardList = activityViewModel.user.rewards
+        if (rewardList.isNotEmpty()) {
+            val latestReward = rewardList.last()
+
+            most_recent_reward_textView.text = getString(R.string.most_recent_reward_text)
+            most_recent_reward_value_textView.text = latestReward.name
+
+            when (latestReward.type) {
+                RewardType.TITLE -> Picasso.get().load("file:///android_asset/rewards_title.jpg").resize(
+                    500,
+                    500
+                ).into(most_recent_reward_imageView)
+                RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
+                    500,
+                    500
+                ).into(most_recent_reward_imageView)
+                RewardType.CHALLENGE_PACK -> Picasso.get().load("file:///android_asset/rewards_pack.jpg").resize(
+                    500,
+                    500
+                ).into(most_recent_reward_imageView)
+                else -> Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
+                    500,
+                    500
+                ).into(most_recent_reward_imageView)
+            }
+        } else {
+            most_recent_reward_cardView.visibility = View.GONE
+        }
+    }
+
+    private fun setupChallenge() {
+        val challengeList = activityViewModel.user.completed_challenges
+
+        if (challengeList.isNotEmpty()) {
+            var biggestChallenge = challengeList[0]
+            challengeList.forEach { challenge ->
+                if (biggestChallenge.points >= challenge.points) {
+                    biggestChallenge = challenge
+                }
+            }
+
+            big_challenge_textView.text = getString(R.string.biggest_impact_challenge_text)
+            big_challenge_value_textView.text = biggestChallenge.name
+        } else {
+            big_challenge_cardView.visibility = View.GONE
+        }
+    }
+
+    private fun setupStreak() {
+        streak_textView.text = getString(R.string.streak_text)
+        streak_value_textView.text = activityViewModel.user.completed_challenges.size.toString()
+        Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
+            500,
+            500
+        ).into(streak_imageView)
     }
 
     private fun setupActionBar() {

@@ -14,7 +14,14 @@
         app:layout_constraintBottom_toTopOf="@+id/you_may_start_middle_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/youresetplant"
+            />
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/you_may_start_proceed_button"

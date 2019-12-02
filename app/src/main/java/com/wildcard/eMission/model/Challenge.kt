@@ -5,7 +5,7 @@ data class Challenge (
     val name: String,
     val description: String,
     val points: Int,
-    val challengePack: String,
+    val challengePack: ChallengePack,
     val singleTask: Boolean,
     var status: CompleteStatus,
     val info: Info?,
@@ -18,4 +18,12 @@ enum class CompleteStatus {
     COMPLETE,
     ONGOING,
     UNSTARTED
+}
+
+enum class ChallengePack {
+    BASIC,
+    SET_1,
+    SET_2,
+    SET_3,
+    SET_4
 }

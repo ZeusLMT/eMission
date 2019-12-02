@@ -59,7 +59,7 @@ class YouFragment : Fragment() {
     }
 
     private fun setupTitle() {
-        profile_title_textView.text = activityViewModel.user.name
+        profile_title_textView.text = activityViewModel.user.title
         val rewardList = activityViewModel.user.rewards
         if (rewardList.isNotEmpty()) {
             val titles = rewardList.filter { reward ->

@@ -1,7 +1,8 @@
 package com.wildcard.eMission.model
 
 data class User (
-    var name: String,
+    var title: String,
+    var picture: String,
     var age: Int?,
     var carbonFootprint: Long,
     var carbonSaved: Long,
@@ -15,6 +16,6 @@ data class User (
 
 ) {
     override fun toString(): String {
-        return "User(name='$name', age=$age, carbonFootprint=$carbonFootprint, carbonSaved=$carbonSaved, rewardPoints=$rewardPoints, rewards=$rewards, completed_challenges=$completed_challenges, diet=$diet, housingType=$housingType, transportation=$transportation)"
+        return "User(name='$title', age=$age, picture=$picture, carbonFootprint=$carbonFootprint, carbonSaved=$carbonSaved, rewardPoints=$rewardPoints, rewards=$rewards, completed_challenges=$completed_challenges, diet=$diet, housingType=$housingType, transportation=$transportation)"
     }
 }

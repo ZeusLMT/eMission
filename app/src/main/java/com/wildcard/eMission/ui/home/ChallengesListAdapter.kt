@@ -30,6 +30,7 @@ class ChallengesListAdapter (
         private val itemView: View,
         val cardView: CardView = itemView.findViewById(R.id.challenge_card_cardView),
         val title: TextView = itemView.findViewById(R.id.challenge_title_textView),
+        val desc: TextView = itemView.findViewById(R.id.challenge_desc_textView),
         private val pointsLayout: LinearLayout = itemView.findViewById(R.id.challenge_points_layout),
         val points: TextView = pointsLayout.findViewById(R.id.points_display_textView),
         val progressBar: ProgressBar = itemView.findViewById(R.id.challenge_progress_progressBar),
@@ -54,7 +55,8 @@ class ChallengesListAdapter (
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).title.text = challenges[position].description
+        (holder as ViewHolder).desc.text = challenges[position].description
+        holder.title.text = challenges[position].name
         holder.points.text = challenges[position].points.toString()
 
         var progress = 0

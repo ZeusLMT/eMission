@@ -31,10 +31,15 @@ class YouFragment : Fragment() {
         activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_you, container, false)
 
-        Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
+        Picasso
+            .get()
+            .load("file:///android_asset/rewards_profile.jpg")
+            .resize(
             500,
             500
-        ).into(root.findViewById<ImageView>(R.id.profile_picture_imageView))
+            )
+            .transform(Utils.Companion.PicassoCircleTransformation())
+            .into(root.findViewById<ImageView>(R.id.profile_picture_imageView))
         return root
     }
 
@@ -103,7 +108,7 @@ class YouFragment : Fragment() {
         if (challengeList.isNotEmpty()) {
             var biggestChallenge = challengeList[0]
             challengeList.forEach { challenge ->
-                if (biggestChallenge.points >= challenge.points) {
+                if (biggestChallenge.points <= challenge.points) {
                     biggestChallenge = challenge
                 }
             }

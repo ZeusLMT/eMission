@@ -5,6 +5,7 @@ package com.wildcard.eMission.model
 data class Challenge (
     val cId: String,
     val name: String,
+    val name_fin: String,
     val description: String,
     val description_fin: String,
     val points: Int,

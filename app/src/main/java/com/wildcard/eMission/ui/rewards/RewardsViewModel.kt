@@ -27,7 +27,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "1",
                 name = "Private Green title",
-                name_fin = "Y. Vihreaä otsikko",
+                name_fin = "Y. Vihreä otsikko",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.TITLE,
                 points = 500,
@@ -40,7 +40,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "2",
                 name = "Private Green picture",
-                name_fin = "Y. Vihreaä kuva",
+                name_fin = "Y. Vihreä kuva",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.PROFILE_PIC,
                 points = 500,

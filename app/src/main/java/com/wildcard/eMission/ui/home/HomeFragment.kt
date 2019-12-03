@@ -24,6 +24,7 @@ import com.wildcard.eMission.model.CompleteStatus
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
+import java.util.*
 
 class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     private lateinit var homeViewModel: HomeViewModel
@@ -95,7 +96,12 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     }
 
     override fun onInfoSelected(challenge: Challenge, position: Int) {
-        Toast.makeText(context, "Showing info for ${challenge.name}", Toast.LENGTH_SHORT).show()
+        val language = Locale.getDefault().displayLanguage
+        if(language.equals("suomi")) {
+            Toast.makeText(context, "Näytetään info haasteelle ${challenge.name_fin}", Toast.LENGTH_SHORT).show()
+        }else {
+            Toast.makeText(context, "Showing info for ${challenge.name}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupActionBar() {

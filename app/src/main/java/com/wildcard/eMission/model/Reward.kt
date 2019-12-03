@@ -34,7 +34,7 @@ enum class RewardType {
     TITLE,
     CHALLENGE_PACK,
     ACTION,
-    BACKGROUND,
+    THEME,
     PROFILE_PIC
 }
 

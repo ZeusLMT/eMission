@@ -18,7 +18,6 @@ import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 import com.wildcard.eMission.model.Reward
 import com.wildcard.eMission.model.RewardStatus
-import com.wildcard.eMission.model.RewardTier
 import com.wildcard.eMission.model.RewardType
 
 class RewardsAdapter(
@@ -74,57 +73,30 @@ class RewardsAdapter(
         (holder as ViewHolder).rewardTitle.text = rewards[position].name
         holder.rewardPoints.text = rewards[position].points.toString()
 
-        when (rewards[position].type) {
-            RewardType.TITLE -> when (rewards[position].tier) {
-                RewardTier.PRIVATE_GREEN -> Picasso.get().load("file:///android_asset/rewards_title_green.jpg").resize(
+        if (rewards[position].image.isNotEmpty()) {
+            Picasso.get().load(rewards[position].image).resize(
+                500,
+                500
+            ).into(holder.rewardImg)
+        } else {
+            when (rewards[position].type) {
+                RewardType.TITLE -> Picasso.get().load("file:///android_asset/rewards_title.jpg").resize(
                     500,
                     500
                 ).into(holder.rewardImg)
-                RewardTier.CORPORAL_BEE -> Picasso.get().load("file:///android_asset/rewards_title_bee.jpg").resize(
+                RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
                     500,
                     500
                 ).into(holder.rewardImg)
-                RewardTier.SERGEANT_FLOWER -> Picasso.get().load("file:///android_asset/rewards_title_flower.jpg").resize(
+                RewardType.CHALLENGE_PACK -> Picasso.get().load("file:///android_asset/rewards_pack.jpg").resize(
                     500,
                     500
                 ).into(holder.rewardImg)
-                RewardTier.LIEUTENANT_TREE -> Picasso.get().load("file:///android_asset/rewards_title_tree.jpg").resize(
-                    500,
-                    500
-                ).into(holder.rewardImg)
-                RewardTier.CAPTAIN_WOOD -> Picasso.get().load("file:///android_asset/rewards_title_wood.jpg").resize(
-                    500,
-                    500
-                ).into(holder.rewardImg)
-                RewardTier.MAJOR_NATURE -> Picasso.get().load("file:///android_asset/rewards_title_nature.jpg").resize(
-                    500,
-                    500
-                ).into(holder.rewardImg)
-                RewardTier.COLONEL_ENVIRONMENT -> Picasso.get().load("file:///android_asset/rewards_title_environment.jpg").resize(
-                    500,
-                    500
-                ).into(holder.rewardImg)
-                RewardTier.GENERAL_CLIMATE -> Picasso.get().load("file:///android_asset/rewards_title_climate.jpg").resize(
-                    500,
-                    500
-                ).into(holder.rewardImg)
-                RewardTier.PRESIDENT_CARBON_NEUTRAL -> Picasso.get().load("file:///android_asset/rewards_title_CN.jpg").resize(
+                else -> Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
                     500,
                     500
                 ).into(holder.rewardImg)
             }
-            RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
-                500,
-                500
-            ).into(holder.rewardImg)
-            RewardType.CHALLENGE_PACK -> Picasso.get().load("file:///android_asset/rewards_pack.jpg").resize(
-                500,
-                500
-            ).into(holder.rewardImg)
-            else -> Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
-                500,
-                500
-            ).into(holder.rewardImg)
         }
 
         when (rewards[position].status) {

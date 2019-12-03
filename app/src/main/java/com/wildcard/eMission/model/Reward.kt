@@ -3,6 +3,7 @@ package com.wildcard.eMission.model
 data class Reward (
     val rId: String,
     val name: String,
+    val name_fin: String,
     val tier: RewardTier,
     val type: RewardType,
     val points: Int,

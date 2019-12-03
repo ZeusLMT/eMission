@@ -27,6 +27,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "1",
                 name = "Private Green title",
+                name_fin = "Y. Vihreaä otsikko",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.TITLE,
                 points = 500,
@@ -39,6 +40,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "2",
                 name = "Private Green picture",
+                name_fin = "Y. Vihreaä kuva",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.PROFILE_PIC,
                 points = 500,
@@ -51,6 +53,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "3",
                 name = "Corporal Bee title",
+                name_fin = "Korp. Mehiläinen otsikko",
                 tier = RewardTier.CORPORAL_BEE,
                 type = RewardType.TITLE,
                 points = 500,
@@ -63,6 +66,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "4",
                 name = "Corporal Bee challenges",
+                name_fin = "Korp. Mehilläinen haasteet",
                 tier = RewardTier.CORPORAL_BEE,
                 type = RewardType.CHALLENGE_PACK,
                 points = 500,
@@ -75,6 +79,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "5",
                 name = "Sergeant Flower title",
+                name_fin = "Kers. Kukka otsikko",
                 tier = RewardTier.SERGEANT_FLOWER,
                 type = RewardType.TITLE,
                 points = 1000,
@@ -87,6 +92,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "6",
                 name = "Sergeant Flower background",
+                name_fin = "Kers. Kukka taustakuva",
                 tier = RewardTier.SERGEANT_FLOWER,
                 points = 1000,
                 type = RewardType.CHALLENGE_PACK,
@@ -99,6 +105,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "7",
                 name = "Captain Wood Title",
+                name_fin = "Kapt. Puu otsikko",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 2000,
                 type = RewardType.TITLE,
@@ -111,6 +118,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "8",
                 name = "Captain Wood profile picture",
+                name_fin = "Kapt. Puu profiilikuva",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 3000,
                 type = RewardType.PROFILE_PIC,
@@ -123,6 +131,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "9",
                 name = "Captain Wood background",
+                name_fin = "Kapt. Puu taustakuva",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 3000,
                 type = RewardType.BACKGROUND,

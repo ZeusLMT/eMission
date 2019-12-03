@@ -20,6 +20,7 @@ import com.wildcard.eMission.model.Reward
 import com.wildcard.eMission.model.RewardStatus
 import com.wildcard.eMission.model.RewardTier
 import com.wildcard.eMission.model.RewardType
+import java.util.*
 
 class RewardsAdapter(
     private var appContext: Context,
@@ -71,7 +72,12 @@ class RewardsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).rewardTitle.text = rewards[position].name
+        val language = Locale.getDefault().displayLanguage
+        if(language.equals("suomi")) {
+            (holder as ViewHolder).rewardTitle.text = rewards[position].name_fin
+        }else {
+            (holder as ViewHolder).rewardTitle.text = rewards[position].name
+        }
         holder.rewardPoints.text = rewards[position].points.toString()
 
         when (rewards[position].type) {

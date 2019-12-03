@@ -17,11 +17,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tabGravity="center"
+            style="@style/TabLayoutAppearance"
             app:tabBackground="@drawable/tab_selector"
-            android:elevation="10dp"
             android:id="@+id/questions_view_tablayout"
             app:tabIndicator="@null"
             android:background="@android:color/transparent"
-            android:foregroundTint="#000000"
-            />
+        >
+    </com.google.android.material.tabs.TabLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

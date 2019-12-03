@@ -22,6 +22,7 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
         //adding the tabs to the tab layout
         for(i in 0 until amountOfTabs){
             questions_view_tablayout.addTab(questions_view_tablayout.newTab().setIcon(R.drawable.tab_selector))
+
         }
 
         //to disable of the clicking of tabs, tabs are meant to change only, when question is answered

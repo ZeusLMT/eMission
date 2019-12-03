@@ -3,6 +3,7 @@ package com.wildcard.eMission.model
 data class Reward (
     val rId: String,
     val name: String,
+    val image: String,
     val name_fin: String,
     val tier: RewardTier,
     val type: RewardType,
@@ -34,7 +35,7 @@ enum class RewardType {
     TITLE,
     CHALLENGE_PACK,
     ACTION,
-    BACKGROUND,
+    THEME,
     PROFILE_PIC
 }
 

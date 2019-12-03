@@ -47,9 +47,13 @@ class YouFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_4)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_4)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupActionBar()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

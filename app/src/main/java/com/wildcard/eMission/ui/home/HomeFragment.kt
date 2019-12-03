@@ -1,5 +1,6 @@
 package com.wildcard.eMission.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +15,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 import com.wildcard.eMission.model.Challenge
+import com.wildcard.eMission.model.ChallengePack
 import com.wildcard.eMission.model.CompleteStatus
 import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
@@ -41,13 +44,17 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
         homeViewModel = ViewModelProviders.of(activity!!).get(HomeViewModel::class.java)
         activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
 
-        setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_1)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_1)
 
         activityViewModel.userDataUpdated.observe(this, Observer {
             homeViewModel.carbonSaved.value = activityViewModel.user.carbonSaved.toInt()
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupActionBar()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -129,7 +136,24 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     }
 
     private fun generateTodayChallenges() {
-        val personalizedChallenges = homeViewModel.allChallenges.filter { challenge ->
+        val sharedPreferences =
+            activity!!.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+        val jsonString = sharedPreferences.getString(Utils.PREF_UNLOCKED_PACK, "")!!
+
+        if (jsonString.isNotEmpty()) {
+            val list = Gson().fromJson(jsonString, Array<ChallengePack>::class.java).toList()
+            val arrayList = arrayListOf<ChallengePack>()
+            arrayList.addAll(list)
+            activityViewModel.unlockedChallengePacks = arrayList
+        }
+
+        Timber.d("Unlocked: ${activityViewModel.unlockedChallengePacks}")
+
+        val availableChallenges = homeViewModel.allChallenges.filter { challenge ->
+            activityViewModel.unlockedChallengePacks.contains(challenge.challengePack)
+        }
+
+        val personalizedChallenges = availableChallenges.filter { challenge ->
             when {
                 (challenge.diet.isNotEmpty() && !challenge.diet.contains(activityViewModel.user.diet)) -> false
                 (challenge.housingType.isNotEmpty() && !challenge.housingType.contains(
@@ -142,7 +166,10 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
             }
         }
         val todayChallenges = arrayListOf<Challenge>()
-        personalizedChallenges.shuffled().subList(0, 3).forEach {
+        personalizedChallenges
+            .shuffled()
+            .subList(0, 5)
+            .forEach {
             it.status = CompleteStatus.UNSTARTED
             todayChallenges.add(it)
         }

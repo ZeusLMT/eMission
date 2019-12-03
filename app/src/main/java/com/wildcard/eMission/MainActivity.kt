@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityViewModel: ActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -49,19 +51,28 @@ class MainActivity : AppCompatActivity() {
     private fun writeUserDataToSP() {
         val jsonString = Gson().toJson(activityViewModel.user)
 
-        val sharedPreferences = getSharedPreferences(Utils.PREF_USER, Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString(Utils.PREF_USER, jsonString).apply()
     }
 
     private fun readUserDataFromSP() {
-        val sharedPreferences = getSharedPreferences(Utils.PREF_USER, Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
         val jsonString = sharedPreferences.getString(Utils.PREF_USER, "")!!
 
         if (jsonString.isNotEmpty()) {
             val user = Gson().fromJson<User>(jsonString, User::class.java)
             activityViewModel.user = user
             activityViewModel.userDataUpdated.value = !activityViewModel.userDataUpdated.value!!
+        }
+    }
+
+    private fun setTheme() {
+        val sharedPreferences = getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+        //Change app theme accordingly to user settings
+        when (sharedPreferences.getString(Utils.PREF_THEME, "LIGHT")) {
+            "LIGHT" -> setTheme(R.style.AppTheme)
+            "DARK" -> setTheme(R.style.AppThemeDark)
         }
     }
 }

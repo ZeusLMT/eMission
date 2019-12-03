@@ -1,5 +1,6 @@
 package com.wildcard.eMission.ui.rewards
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -16,10 +18,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.Gson
 import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.BR
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import com.wildcard.eMission.model.ChallengePack
 import com.wildcard.eMission.model.Reward
 import com.wildcard.eMission.model.RewardStatus
 import com.wildcard.eMission.model.RewardType
@@ -44,14 +48,19 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
         rewardsViewModel = ViewModelProviders.of(this).get(RewardsViewModel::class.java)
         activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
 
-        setupActionBar()
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_2)
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_2)
-
         activityViewModel.userDataUpdated.observe(this, Observer {
             rewardsViewModel.userPoints.value = activityViewModel.user.rewardPoints
 
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupActionBar()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor =
+            context?.getColorStateList(R.color.nav_item_color_state_list_2)
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList =
+            context?.getColorStateList(R.color.nav_item_color_state_list_2)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -161,12 +170,39 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
         when (reward.type) {
             RewardType.TITLE -> activityViewModel.updateUserData { user ->
                 user.title = reward.content as String
+
+                Toast.makeText(context, "You've ranked up to a new title", Toast.LENGTH_SHORT)
+                    .show()
             }
-            RewardType.CHALLENGE_PACK -> TODO()
+
+            RewardType.CHALLENGE_PACK -> {
+                activityViewModel.unlockedChallengePacks.add(reward.content as ChallengePack)
+
+                val sharedPreferences =
+                    activity?.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+                val editor = sharedPreferences?.edit()
+                val jsonString = Gson().toJson(activityViewModel.unlockedChallengePacks)
+                editor?.putString(Utils.PREF_UNLOCKED_PACK, jsonString)?.apply()
+
+                Toast.makeText(context, "You've unlocked new challenges", Toast.LENGTH_SHORT).show()
+            }
+
             RewardType.ACTION -> TODO()
-            RewardType.THEME -> TODO()
+
+            RewardType.THEME -> {
+                Toast.makeText(context, "Applying new theme...", Toast.LENGTH_SHORT).show()
+
+                val sharedPreferences =
+                    activity?.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+                val editor = sharedPreferences?.edit()
+                editor?.putString(Utils.PREF_THEME, reward.content as String)?.apply()
+                activity?.recreate()
+            }
+
             RewardType.PROFILE_PIC -> activityViewModel.updateUserData { user ->
                 user.picture = reward.content as String
+                Toast.makeText(context, "You've unlocked new profile picture", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

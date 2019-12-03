@@ -36,9 +36,13 @@ class LearningFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupActionBar()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_3)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_3)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupActionBar()
     }
 
     private fun setupActionBar() {

@@ -8,9 +8,11 @@ import timber.log.Timber
 
 class Utils {
     companion object {
+        const val SHARE_PREFS = "EMISSION_SHARED_PREFS"
         const val PREF_DATE = "LAST_GENERATED_DATE"
         const val PREF_USER = "CURRENT_USER"
         const val PREF_THEME = "CURRENT_THEME"
+        const val PREF_UNLOCKED_PACK = "UNLOCKED_CHALLENGE_PACKS"
 
         fun setGradientTextColor(textView: TextView, colorStart: Int, colorEnd: Int) {
             textView.setTextColor(colorEnd)

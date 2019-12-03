@@ -15,7 +15,7 @@ class RewardsViewModel : ViewModel() {
     }
     val text: LiveData<String> = _text
 
-    val userPoints = MutableLiveData<Int>().apply { value = 5218 }
+    val userPoints = MutableLiveData<Int>()
 
     val rewardsList = MutableLiveData<ArrayList<Reward>>()
 
@@ -27,6 +27,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "1",
                 name = "Private Green title",
+                image = "file:///android_asset/rewards_title_green.jpg",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.TITLE,
                 points = 500,
@@ -39,6 +40,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "2",
                 name = "Private Green picture",
+                image = "file:///android_asset/rewards_profile_1.jpg",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.PROFILE_PIC,
                 points = 500,
@@ -51,6 +53,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "3",
                 name = "Corporal Bee title",
+                image = "file:///android_asset/rewards_title_bee.jpg",
                 tier = RewardTier.CORPORAL_BEE,
                 type = RewardType.TITLE,
                 points = 500,
@@ -63,6 +66,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "4",
                 name = "Corporal Bee challenges",
+                image = "file:///android_asset/rewards_pack.jpg",
                 tier = RewardTier.CORPORAL_BEE,
                 type = RewardType.CHALLENGE_PACK,
                 points = 500,
@@ -75,6 +79,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "5",
                 name = "Sergeant Flower title",
+                image = "file:///android_asset/rewards_title_flower.jpg",
                 tier = RewardTier.SERGEANT_FLOWER,
                 type = RewardType.TITLE,
                 points = 1000,
@@ -86,7 +91,8 @@ class RewardsViewModel : ViewModel() {
         rewards.add(
             Reward(
                 rId = "6",
-                name = "Sergeant Flower background",
+                name = "Sergeant Flower picture",
+                image = "file:///android_asset/rewards_profile_2.jpg",
                 tier = RewardTier.SERGEANT_FLOWER,
                 points = 1000,
                 type = RewardType.CHALLENGE_PACK,
@@ -99,6 +105,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "7",
                 name = "Captain Wood Title",
+                image = "file:///android_asset/rewards_title_wood.jpg",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 2000,
                 type = RewardType.TITLE,
@@ -111,6 +118,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "8",
                 name = "Captain Wood profile picture",
+                image = "file:///android_asset/rewards_profile_3.jpg",
                 tier = RewardTier.CAPTAIN_WOOD,
                 points = 3000,
                 type = RewardType.PROFILE_PIC,
@@ -124,6 +132,7 @@ class RewardsViewModel : ViewModel() {
                 rId = "9",
                 name = "Captain Wood background",
                 tier = RewardTier.CAPTAIN_WOOD,
+                image = "file:///android_asset/rewards_general",
                 points = 3000,
                 type = RewardType.BACKGROUND,
                 status = RewardStatus.AVAILABLE,

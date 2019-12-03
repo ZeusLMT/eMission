@@ -33,13 +33,15 @@ class YouFragment : Fragment() {
 
         Picasso
             .get()
-            .load("file:///android_asset/rewards_profile.jpg")
+            .load(if (activityViewModel.user.picture.isEmpty()) "file:///android_asset/rewards_profile.jpg" else activityViewModel.user.picture)
             .resize(
             500,
             500
             )
             .transform(Utils.Companion.PicassoCircleTransformation())
             .into(root.findViewById<ImageView>(R.id.profile_picture_imageView))
+
+        root.findViewById<TextView>(R.id.profile_title_textView).text = activityViewModel.user.title
         return root
     }
 
@@ -55,21 +57,21 @@ class YouFragment : Fragment() {
         setupStreak()
         setupReward()
         setupChallenge()
-        setupTitle()
+//        setupTitle()
     }
 
-    private fun setupTitle() {
-        profile_title_textView.text = activityViewModel.user.title
-        val rewardList = activityViewModel.user.rewards
-        if (rewardList.isNotEmpty()) {
-            val titles = rewardList.filter { reward ->
-                reward.type == RewardType.TITLE
-            }
-            if (titles.isNotEmpty()) {
-                profile_title_textView.text = titles.last().content as String
-            }
-        }
-    }
+//    private fun setupTitle() {
+//        profile_title_textView.text = activityViewModel.user.title
+//        val rewardList = activityViewModel.user.rewards
+//        if (rewardList.isNotEmpty()) {
+//            val titles = rewardList.filter { reward ->
+//                reward.type == RewardType.TITLE
+//            }
+//            if (titles.isNotEmpty()) {
+//                profile_title_textView.text = titles.last().content as String
+//            }
+//        }
+//    }
 
     private fun setupReward() {
         val rewardList = activityViewModel.user.rewards
@@ -79,23 +81,30 @@ class YouFragment : Fragment() {
             most_recent_reward_textView.text = getString(R.string.most_recent_reward_text)
             most_recent_reward_value_textView.text = latestReward.name
 
-            when (latestReward.type) {
-                RewardType.TITLE -> Picasso.get().load("file:///android_asset/rewards_title.jpg").resize(
+            if (latestReward.image.isNotEmpty()) {
+                Picasso.get().load(latestReward.image).resize(
                     500,
                     500
                 ).into(most_recent_reward_imageView)
-                RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
-                    500,
-                    500
-                ).into(most_recent_reward_imageView)
-                RewardType.CHALLENGE_PACK -> Picasso.get().load("file:///android_asset/rewards_pack.jpg").resize(
-                    500,
-                    500
-                ).into(most_recent_reward_imageView)
-                else -> Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
-                    500,
-                    500
-                ).into(most_recent_reward_imageView)
+            } else {
+                when (latestReward.type) {
+                    RewardType.TITLE -> Picasso.get().load("file:///android_asset/rewards_title.jpg").resize(
+                        500,
+                        500
+                    ).into(most_recent_reward_imageView)
+                    RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
+                        500,
+                        500
+                    ).into(most_recent_reward_imageView)
+                    RewardType.CHALLENGE_PACK -> Picasso.get().load("file:///android_asset/rewards_pack.jpg").resize(
+                        500,
+                        500
+                    ).into(most_recent_reward_imageView)
+                    else -> Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
+                        500,
+                        500
+                    ).into(most_recent_reward_imageView)
+                }
             }
         } else {
             most_recent_reward_cardView.visibility = View.GONE
@@ -123,7 +132,7 @@ class YouFragment : Fragment() {
     private fun setupStreak() {
         streak_textView.text = getString(R.string.streak_text)
         streak_value_textView.text = activityViewModel.user.completed_challenges.size.toString()
-        Picasso.get().load("file:///android_asset/rewards_general.jpg").resize(
+        Picasso.get().load("file:///android_asset/graphs_demo.jpg").resize(
             500,
             500
         ).into(streak_imageView)

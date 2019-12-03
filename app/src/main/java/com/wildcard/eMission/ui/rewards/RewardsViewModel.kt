@@ -159,7 +159,7 @@ class RewardsViewModel : ViewModel() {
                 points = 5000,
                 type = RewardType.THEME,
                 status = RewardStatus.AVAILABLE,
-                content = "New theme"
+                content = "DARK"
             )
         )
 

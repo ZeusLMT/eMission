@@ -2,10 +2,7 @@ package com.wildcard.eMission
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.wildcard.eMission.model.Diet
-import com.wildcard.eMission.model.HousingType
-import com.wildcard.eMission.model.Transportation
-import com.wildcard.eMission.model.User
+import com.wildcard.eMission.model.*
 
 class ActivityViewModel : ViewModel() {
     var user = User(
@@ -23,6 +20,7 @@ class ActivityViewModel : ViewModel() {
     )
     var userDataUpdated = MutableLiveData<Boolean>(false)
     var writeUserToSP = MutableLiveData<Boolean>(false)
+    var unlockedChallengePacks = ArrayList<ChallengePack>(arrayListOf(ChallengePack.BASIC))
 
     fun updateUserData(update: ((User) -> Unit)) {
         update(user)

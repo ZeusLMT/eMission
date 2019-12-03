@@ -32,6 +32,7 @@ class ChallengesListAdapter (
         private val itemView: View,
         val cardView: CardView = itemView.findViewById(R.id.challenge_card_cardView),
         val title: TextView = itemView.findViewById(R.id.challenge_title_textView),
+        val desc: TextView = itemView.findViewById(R.id.challenge_desc_textView),
         private val pointsLayout: LinearLayout = itemView.findViewById(R.id.challenge_points_layout),
         val points: TextView = pointsLayout.findViewById(R.id.points_display_textView),
         val progressBar: ProgressBar = itemView.findViewById(R.id.challenge_progress_progressBar),

@@ -17,7 +17,7 @@
     <string name="reward_claim_dialog_title">Not enough green points</string>
     <string name="reward_claim_dialog_message">Complete more challenges to earn more!</string>
 
-    <string name="dialog_ok">OK</string>
+    <string name="dialog_ok" translatable="false">OK</string>
     <string name="dialog_cancel">Cancel</string>
 
     <!--    Action Bar items-->
@@ -49,4 +49,9 @@
     <!-- image content descriptions -->
     <string name="description_forward">Forward button</string>
     <string name="description_app_logo">App logo</string>
+    <!--    You Fragment strings-->
+    <string name="most_recent_reward_text">Most recent reward</string>
+    <string name="biggest_impact_challenge_text">Biggest impact challenge</string>
+    <string name="streak_text">Current streak</string>
+
 </resources>

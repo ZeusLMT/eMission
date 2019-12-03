@@ -9,8 +9,21 @@
     <string name="title_you">Sinä</string>
     <string name="subtitle_you">Seuraa editymistäsi ja saavutuksiasi</string>
 
+    <!-- Dialog strings-->
+    <string name="all_complete_dialog_title">Hyvin tehty!</string>
+    <string name="all_complete_dialog_message">Suoriuduit tämän päivän haasteista.</string>
+
+    <string name="reward_claim_dialog_title">Ei tarpeeksi vihreitä pisteitä</string>
+    <string name="reward_claim_dialog_message">Läpäise haasteita ansaitaksesi enemmän!</string>
+
+    <string name="dialog_cancel">Peru</string>
+
     <!--Action Bar Items-->
     <string name="title_settings">Asetukset</string>
+
+    <!-- Rewards Fragment strings-->
+    <string name="claim_button">Lunasta</string>
+    <string name="reward_claimed_text">Ansaitsit tämän</string>
 
     <!-- starting questions pages -->
     <string name="fragment_living_style_question">Asutko kerrostalohuoneistossa?</string>
@@ -31,5 +44,10 @@
     <!-- image content descriptions-->
     <string name="description_forward">Etene</string>
     <string name="description_app_logo">Sovelluksen logo</string>
+
+    <!-- you fragment strings-->
+    <string name="most_recent_reward_text">Viimeisin palkinto</string>
+    <string name="biggest_impact_challenge_text">Haaste, jolla suurin vaikutus</string>
+    <string name="streak_text">Nykyinen sarja</string>
 
 </resources>

@@ -9,7 +9,8 @@ import com.wildcard.eMission.model.User
 
 class ActivityViewModel : ViewModel() {
     var user = User(
-        name = "Test User",
+        title = "Test User",
+        picture = "",
         age = null,
         carbonFootprint = 0,
         carbonSaved = 2000,

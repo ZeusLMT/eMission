@@ -3,6 +3,7 @@ package com.wildcard.eMission.ui.rewards
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.wildcard.eMission.R
 import com.wildcard.eMission.model.*
 
 class RewardsViewModel : ViewModel() {
@@ -159,7 +160,7 @@ class RewardsViewModel : ViewModel() {
                 points = 5000,
                 type = RewardType.THEME,
                 status = RewardStatus.AVAILABLE,
-                content = "New theme"
+                content = R.style.AppThemeDark
             )
         )
 

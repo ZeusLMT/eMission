@@ -22,6 +22,7 @@ import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 import com.wildcard.eMission.model.Reward
 import com.wildcard.eMission.model.RewardStatus
+import com.wildcard.eMission.model.RewardType
 import kotlinx.android.synthetic.main.fragment_rewards.*
 import timber.log.Timber
 
@@ -137,6 +138,8 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
                 user.rewardPoints -= reward.points
             }
 
+            applyReward(reward)
+
         } else {
             showPurchaseDialog()
         }
@@ -152,5 +155,19 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
             ?.setNeutralButton(R.string.dialog_cancel, null)
             ?.create()
             ?.show()
+    }
+
+    private fun applyReward(reward: Reward) {
+        when (reward.type) {
+            RewardType.TITLE -> activityViewModel.updateUserData { user ->
+                user.title = reward.content as String
+            }
+            RewardType.CHALLENGE_PACK -> TODO()
+            RewardType.ACTION -> TODO()
+            RewardType.THEME -> TODO()
+            RewardType.PROFILE_PIC -> activityViewModel.updateUserData { user ->
+                user.picture = reward.content as String
+            }
+        }
     }
 }

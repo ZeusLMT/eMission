@@ -345,7 +345,7 @@ class HomeViewModel : ViewModel() {
             Challenge(
                 cId = "019",
                 name = "I <3 My Bicycle",
-                name_fin= "<3 pyörääni",
+                name_fin= "Rakastan polkupyörääni",
                 description = "Cycle to school/work",
                 description_fin = "Mene kouluun/töihin pyöräillen",
                 points = 1506,

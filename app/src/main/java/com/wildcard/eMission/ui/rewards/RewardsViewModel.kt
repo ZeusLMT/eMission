@@ -38,7 +38,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "02",
                 name = "Avatar: Green",
-                name_fin = "Avtar: Vihreä",
+                name_fin = "Avatar: Vihreä",
                 image = "file:///android_asset/rewards_profile_1.jpg",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.PROFILE_PIC,
@@ -263,7 +263,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "17",
                 name = "Avatar: Carbon Neutral",
-                name_fin = "Avatar= Hiilineutraali",
+                name_fin = "Avatar: Hiilineutraali",
                 image = "file:///android_asset/rewards_profile_4.jpg",
                 tier = RewardTier.PRESIDENT_CARBON_NEUTRAL,
                 points = 10000,

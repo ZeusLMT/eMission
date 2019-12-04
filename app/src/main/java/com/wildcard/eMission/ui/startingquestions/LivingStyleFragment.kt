@@ -15,15 +15,13 @@ import com.wildcard.eMission.EmissionApplication
 import com.wildcard.eMission.R
 
 class LivingStyleFragment : Fragment() {
-
-    private val myApplication = EmissionApplication()
-    private var delecate : ToTransportationDelecate? = null
+    private var delegate: ToTransportationDelegate? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.i("delegate", "onAttach")
-        if(context is ToTransportationDelecate){
-            delecate = context
+        if (context is ToTransportationDelegate) {
+            delegate = context
             Log.i("delegate", "is context now")
         }
 
@@ -32,8 +30,8 @@ class LivingStyleFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val preferenceName = myApplication.PREF_NAME
-        val livingPreference = myApplication.PREF_APPARTMENT
+        val preferenceName = EmissionApplication.PREF_NAME
+        val livingPreference = EmissionApplication.PREF_APPARTMENT
 
         val sharedPreference = requireContext().getSharedPreferences(preferenceName,Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()
@@ -43,13 +41,13 @@ class LivingStyleFragment : Fragment() {
         yesButton.setOnClickListener {
             editor.putBoolean(livingPreference,true)
             editor.apply()
-            delecate?.toTransportationFragment(this)
+            delegate?.toTransportationFragment(this)
         }
         val noButton = view.findViewById<Button>(R.id.living_style_fragment_no_button)
         noButton.setOnClickListener {
             editor.putBoolean(livingPreference,false)
             editor.apply()
-            delecate?.toTransportationFragment(this)
+            delegate?.toTransportationFragment(this)
         }
 
         Picasso.get().load("file:///android_asset/onboarding_housing.jpg").resize(
@@ -63,6 +61,6 @@ class LivingStyleFragment : Fragment() {
 
 }
 
-interface ToTransportationDelecate {
+interface ToTransportationDelegate {
     fun toTransportationFragment(fragment: LivingStyleFragment)
 }

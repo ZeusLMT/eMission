@@ -25,11 +25,12 @@ class TransportationFragment: Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val transportationPreference = EmissionApplication.PREF_TRANSPORTATION
 
-        val myApplication = EmissionApplication()
-        val transportationPreference = myApplication.PREF_TRANSPORTATION
-
-        val sharedPrefence = requireContext().getSharedPreferences(myApplication.PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPrefence = requireContext().getSharedPreferences(
+            EmissionApplication.PREF_NAME,
+            Context.MODE_PRIVATE
+        )
         val editor = sharedPrefence.edit()
 
         val view = inflater.inflate(R.layout.fragment_transportation,container,false)
@@ -39,25 +40,37 @@ class TransportationFragment: Fragment(){
         val trainButton = view.findViewById<Button>(R.id.transportation_fragment_train_button)
 
         carButton.setOnClickListener {
-            editor.putString(transportationPreference,myApplication.PREF_OPTION_TRANSPORTATION_CAR)
+            editor.putString(
+                transportationPreference,
+                EmissionApplication.PREF_OPTION_TRANSPORTATION_CAR
+            )
             editor.apply()
             delegate?.toDietFragment()
         }
 
         busButton.setOnClickListener {
-            editor.putString(transportationPreference,myApplication.PREF_OPTION_TRANSPORTATION_BUS)
+            editor.putString(
+                transportationPreference,
+                EmissionApplication.PREF_OPTION_TRANSPORTATION_BUS
+            )
             editor.apply()
             delegate?.toDietFragment()
         }
 
         bicycleButton.setOnClickListener {
-            editor.putString(transportationPreference,myApplication.PREF_OPTION_TRANSPORTATION_BICYCLE)
+            editor.putString(
+                transportationPreference,
+                EmissionApplication.PREF_OPTION_TRANSPORTATION_BICYCLE
+            )
             editor.apply()
             delegate?.toDietFragment()
         }
 
         trainButton.setOnClickListener {
-            editor.putString(transportationPreference,myApplication.PREF_OPTION_TRANSPORTATION_TRAIN)
+            editor.putString(
+                transportationPreference,
+                EmissionApplication.PREF_OPTION_TRANSPORTATION_TRAIN
+            )
             editor.apply()
             delegate?.toDietFragment()
         }

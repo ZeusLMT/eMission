@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.wildcard.eMission.ActivityViewModel
+import com.wildcard.eMission.EmissionApplication
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 import com.wildcard.eMission.model.Challenge
@@ -63,7 +64,13 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
 
         setupChallengesList()
 
-        if (homeViewModel.todayChallenges.value.isNullOrEmpty()) {
+        Timber.d("User: ${activityViewModel.user}")
+
+        if (homeViewModel.todayChallenges.value.isNullOrEmpty() && !(activity!!.getSharedPreferences(
+                EmissionApplication.PREF_NAME,
+                Context.MODE_PRIVATE
+            ).getBoolean(EmissionApplication.PREF_ONBOARDING, true))
+        ) {
             generateTodayChallenges()
         }
     }

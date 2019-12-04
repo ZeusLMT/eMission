@@ -1,15 +1,21 @@
 package com.wildcard.eMission
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
+import com.wildcard.eMission.model.Diet
+import com.wildcard.eMission.model.HousingType
+import com.wildcard.eMission.model.Transportation
+import com.wildcard.eMission.model.User
 import com.wildcard.eMission.ui.startingquestions.*
 import kotlinx.android.synthetic.main.activity_question_pages.*
 
 // interfaces are for getting information from fragments to activity
-class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToDietDelegate,
+class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToDietDelegate,
     ReturnToMainActivityDelegate {
     private val amountOfTabs = 3
 
@@ -65,9 +71,51 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
 
     //after last question fragment return to main activity
     override fun returnToMainActivity() {
+        initializeUserAndSave()
 
         val intent = Intent(this, YouMayStartActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun initializeUserAndSave() {
+        val onboardingSP = getSharedPreferences(EmissionApplication.PREF_NAME, Context.MODE_PRIVATE)
+        onboardingSP.edit().putBoolean(EmissionApplication.PREF_ONBOARDING, false).apply()
+
+
+        val vegan = onboardingSP.getBoolean(EmissionApplication.PREF_VEGETARIAN, false)
+        val apartment = onboardingSP.getBoolean(EmissionApplication.PREF_APPARTMENT, false)
+        val transportation = arrayListOf<Transportation>()
+        when (onboardingSP.getString(EmissionApplication.PREF_TRANSPORTATION, "")) {
+            EmissionApplication.PREF_OPTION_TRANSPORTATION_BICYCLE -> transportation.add(
+                Transportation.BICYCLE
+            )
+            EmissionApplication.PREF_OPTION_TRANSPORTATION_TRAIN -> transportation.add(
+                Transportation.TRAIN
+            )
+            EmissionApplication.PREF_OPTION_TRANSPORTATION_BUS -> transportation.add(Transportation.BUS)
+            EmissionApplication.PREF_OPTION_TRANSPORTATION_CAR -> transportation.add(Transportation.CAR)
+            else -> transportation.add(Transportation.WALKING)
+        }
+
+        val user = User(
+            title = "Test User",
+            picture = "",
+            age = null,
+            carbonFootprint = 0,
+            carbonSaved = 0,
+            rewardPoints = if (vegan) 5000 else 0,
+            rewards = arrayListOf(),
+            completed_challenges = arrayListOf(),
+            diet = if (vegan) Diet.VEGAN else Diet.NON_VEGAN,
+            housingType = if (apartment) HousingType.APARTMENT else null,
+            transportation = transportation
+        )
+
+        val jsonString = Gson().toJson(user)
+
+        val sharedPreferences = getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Utils.PREF_USER, jsonString).apply()
     }
 
     private fun changeTab(tab_index: Int){

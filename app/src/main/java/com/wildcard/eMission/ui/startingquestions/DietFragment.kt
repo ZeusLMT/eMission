@@ -25,11 +25,12 @@ class DietFragment: Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val dietPreference = EmissionApplication.PREF_VEGETARIAN
 
-        val myApplication = EmissionApplication()
-        val dietPreference = myApplication.PREF_VEGETARIAN
-
-        val sharedPreference = requireContext().getSharedPreferences(myApplication.PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPreference = requireContext().getSharedPreferences(
+            EmissionApplication.PREF_NAME,
+            Context.MODE_PRIVATE
+        )
         val editor = sharedPreference.edit()
 
         val view = inflater.inflate(R.layout.fragment_diet,container,false)

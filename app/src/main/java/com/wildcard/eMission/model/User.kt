@@ -9,8 +9,8 @@ data class User (
     var rewardPoints: Int,
     var rewards: ArrayList<Reward>,
     var completed_challenges: ArrayList<Challenge>,
-    var diet: Diet,
-    var housingType: HousingType,
+    var diet: Diet?,
+    var housingType: HousingType?,
     var transportation: ArrayList<Transportation>
 
 

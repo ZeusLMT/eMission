@@ -97,7 +97,7 @@ class HomeViewModel : ViewModel() {
                 singleTask = true,
                 status = CompleteStatus.UNSTARTED,
                 info = null,
-                diet = arrayListOf(),
+                diet = arrayListOf(Diet.NON_VEGAN),
                 transportation = arrayListOf(),
                 housingType = arrayListOf()
             )
@@ -169,7 +169,7 @@ class HomeViewModel : ViewModel() {
                 singleTask = false,
                 status = CompleteStatus.UNSTARTED,
                 info = null,
-                diet = arrayListOf(),
+                diet = arrayListOf(Diet.NON_VEGAN),
                 transportation = arrayListOf(),
                 housingType = arrayListOf()
             )
@@ -187,7 +187,7 @@ class HomeViewModel : ViewModel() {
                 singleTask = false,
                 status = CompleteStatus.UNSTARTED,
                 info = null,
-                diet = arrayListOf(),
+                diet = arrayListOf(Diet.NON_VEGAN),
                 transportation = arrayListOf(),
                 housingType = arrayListOf()
             )

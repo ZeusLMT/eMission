@@ -1,6 +1,7 @@
 package com.wildcard.eMission
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -26,6 +27,24 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
+
+
+        showBeginingQuestions()
+    }
+
+    fun showBeginingQuestions(){
+        val myApplication =  EmissionApplication()
+        val prefname = myApplication.PREF_NAME
+        val appartmentPref = myApplication.PREF_APPARTMENT
+        val transportationPref = myApplication.PREF_TRANSPORTATION
+        val dietPref = myApplication.PREF_VEGETARIAN
+
+        val sharedPreference = this.getSharedPreferences(prefname, Context.MODE_PRIVATE)
+
+        if(!sharedPreference.contains(appartmentPref) || !sharedPreference.contains(transportationPref) || !sharedPreference.contains(dietPref)){
+            val startingQuestionsIntent = Intent(this, StartOfQuestionsActivity::class.java)
+            startActivity(startingQuestionsIntent)
+        }
 
         activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel::class.java)
 

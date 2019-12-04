@@ -1,6 +1,6 @@
 <resources>
     <!--    NavBar items-->
-    <string name="app_name">eMission</string>
+    <string name="app_name" translatable="false">eMission</string>
     <string name="title_home">Challenges</string>
     <string name="subtitle_home">You have saved %1dg of Carbon</string>
     <string name="title_rewards">Rewards</string>
@@ -17,7 +17,7 @@
     <string name="reward_claim_dialog_title">Not enough green points</string>
     <string name="reward_claim_dialog_message">Complete more challenges to earn more!</string>
 
-    <string name="dialog_ok">OK</string>
+    <string name="dialog_ok" translatable="false">OK</string>
     <string name="dialog_cancel">Cancel</string>
 
     <!--    Action Bar items-->
@@ -27,6 +27,28 @@
     <string name="claim_button">Claim</string>
     <string name="reward_claimed_text">You\'ve earned it</string>
 
+
+    <!-- starting questions pages -->
+    <string name="fragment_living_style_question">Do you live in an apartment?</string>
+    <string name="fragment_diet_question">Are you vegetarian?</string>
+    <string name="fragment_transportation_question">What is your main way of transportation?</string>
+    <string name="fragment_transportation_car">Private car</string>
+    <string name="fragment_transportation_bicycle">Bicycle</string>
+    <string name="fragment_transportation_bus">Bus</string>
+    <string name="fragment_transportation_train">Train</string>
+    <string name="questions_start_page_phrase">Let\'s make big impacts with small actions, for carbon neutral Helsinki
+        in 2035
+    </string>
+    <string name="questions_start_page_explanation">Please answer the next 3 questions for personalized content</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
+    <string name="you_may_start_youre_set">You\'re all set!</string>
+    <string name="you_may_start_start_button">Start</string>
+    <string name="you_may_start_settings_instructions">You can further personalize by adding more information in the Settings</string>
+
+    <!-- image content descriptions -->
+    <string name="description_forward">Forward button</string>
+    <string name="description_app_logo">App logo</string>
     <!--    You Fragment strings-->
     <string name="most_recent_reward_text">Most recent reward</string>
     <string name="biggest_impact_challenge_text">Biggest impact challenge</string>

@@ -38,10 +38,4 @@
         <item name="android:fontFamily">@font/lato</item>
     </style>
 
-    <style name="TabLayoutAppearance" parent="Widget.Design.TabLayout">
-        <item name="android:colorAccent">#000000</item>
-    </style>
-
-
-
 </resources>

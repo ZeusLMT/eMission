@@ -1,17 +1,16 @@
-package fi.metropolia.wildcard.emission
+package com.wildcard.eMission
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
-import com.wildcard.eMission.R
-import com.wildcard.eMission.YouMayStartActivity
+import com.wildcard.eMission.ui.startingquestions.*
 import kotlinx.android.synthetic.main.activity_question_pages.*
 
 // interfaces are for getting information from fragments to activity
-class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToDietDelegate, ReturnToMainActivityDelegate {
-
+class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToDietDelegate,
+    ReturnToMainActivityDelegate {
     private val amountOfTabs = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +28,7 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelecate, ToD
         //https://inneka.com/programming/android/disable-tablayout/
         val tabStrip: LinearLayout = questions_view_tablayout.getChildAt(0) as LinearLayout
         tabStrip.isEnabled = false
-        for(i in 0..(tabStrip.childCount-1)){
+        for (i in 0 until tabStrip.childCount) {
            tabStrip.getChildAt(i).isClickable = false
         }
 

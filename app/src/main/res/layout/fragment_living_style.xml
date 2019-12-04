@@ -12,15 +12,21 @@
                                           android:id="@+id/guideline2"
                                           android:orientation="horizontal"
                                           app:layout_constraintGuide_percent="0.50"/>
+
     <TextView
-            android:text="@string/fragment_living_style_question"
-            android:textSize="24sp"
-            android:textColor="#ffffff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/living_style_fragment_question"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+        android:id="@+id/living_style_fragment_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:text="@string/fragment_living_style_question"
+        android:textAppearance="@style/TitleAppearance"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
     <androidx.appcompat.widget.AppCompatButton
             android:text="@string/button_yes"
             android:layout_width="120dp"
@@ -53,10 +59,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
+            android:id="@+id/living_imageView"
             android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:src="@drawable/livingstyletest"
-            />
+            android:layout_height="180dp" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

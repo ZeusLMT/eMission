@@ -10,36 +10,41 @@
     <androidx.constraintlayout.widget.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guestions_starting_guideline"
+        android:id="@+id/questions_starting_guideline"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.50"/>
-    <TextView
-            android:text="@string/questions_start_page_phrase"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/questions_starting_phrase_textView"
-            app:layout_constraintTop_toTopOf="@+id/guestions_starting_guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
 
-    />
     <TextView
-            android:text="@string/questions_start_page_explanation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/questions_starting_explanation_textView"
-            android:gravity="center"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toTopOf="@id/start_questions_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"/>
+        android:id="@+id/questions_starting_phrase_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/quicksand_bold"
+        android:gravity="center"
+        android:text="@string/questions_start_page_phrase"
+        android:textAppearance="@style/TitleAppearance"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/questions_starting_guideline" />
+
+    <TextView
+        android:id="@+id/questions_starting_explanation_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:text="@string/questions_start_page_explanation"
+        android:textAppearance="@style/SubTextAppearance"
+        app:layout_constraintBottom_toTopOf="@id/start_questions_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <ImageButton
             android:src="@drawable/ic_navigate_next_black_36dp"
             android:layout_width="wrap_content"
@@ -58,15 +63,14 @@
             android:layout_width="180dp"
             android:layout_height="180dp"
             app:cardCornerRadius="90dp"
-            app:layout_constraintBottom_toTopOf="@+id/guestions_starting_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/questions_starting_guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
-                    android:src="@drawable/emission2c"
-                    android:contentDescription="@string/description_app_logo"
-                    />
+                android:id="@+id/logo_imageView"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:contentDescription="@string/description_app_logo" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package fi.metropolia.wildcard.emission
+package com.wildcard.eMission.ui.startingquestions
 
 import android.content.Context
 import android.os.Bundle
@@ -8,21 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.squareup.picasso.Picasso
 import com.wildcard.eMission.EmissionApplication
 import com.wildcard.eMission.R
 
-class LivingStyleFragment(): Fragment(){
+class LivingStyleFragment : Fragment() {
 
     private val myApplication = EmissionApplication()
     private var delecate : ToTransportationDelecate? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.i("delegatet","onAttach")
+        Log.i("delegate", "onAttach")
         if(context is ToTransportationDelecate){
             delecate = context
-            Log.i("delegatet","is context now")
+            Log.i("delegate", "is context now")
         }
 
         
@@ -50,6 +52,10 @@ class LivingStyleFragment(): Fragment(){
             delecate?.toTransportationFragment(this)
         }
 
+        Picasso.get().load("file:///android_asset/onboarding_housing.jpg").resize(
+            500,
+            500
+        ).into(view.findViewById<ImageView>(R.id.living_imageView))
 
         return view
     }

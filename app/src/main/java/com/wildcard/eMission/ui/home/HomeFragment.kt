@@ -15,13 +15,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wildcard.eMission.ActivityViewModel
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.navigation.NavigationView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
 import com.wildcard.eMission.model.Challenge
 import com.wildcard.eMission.model.CompleteStatus
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 import java.util.*

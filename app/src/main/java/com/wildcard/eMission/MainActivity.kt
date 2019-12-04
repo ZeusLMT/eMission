@@ -12,8 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.wildcard.eMission.model.User
 import timber.log.Timber
-import fi.metropolia.wildcard.emission.StartOfQuestionsActivity
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var activityViewModel: ActivityViewModel

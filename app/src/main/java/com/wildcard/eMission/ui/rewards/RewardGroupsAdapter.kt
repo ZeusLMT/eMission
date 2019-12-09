@@ -36,6 +36,7 @@ class RewardGroupsAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.rewards_group_item_view, parent, false)
         val rewardsRecyclerView: RecyclerView = view.findViewById(R.id.rewards_item_recyclerView)
+
         rewardsRecyclerView.apply {
             val linearLayoutManager =
                 LinearLayoutManager(appContext, LinearLayoutManager.HORIZONTAL, false)

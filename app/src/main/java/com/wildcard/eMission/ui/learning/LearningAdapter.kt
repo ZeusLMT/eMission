@@ -5,51 +5,58 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.model.Learning
-import kotlinx.android.synthetic.main.learning_item_view.view.*
+import com.wildcard.eMission.model.LearningTier
 
 class LearningAdapter(
-    private var appContext: Context,
-    private var learnigs: List<Learning>
-): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    private val appContext: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+    private var learningsList = ArrayList<Learning>()
+    private var learningTiers = arrayListOf<LearningTier>()
+    private val viewpool = RecyclerView.RecycledViewPool()
+
 
 
     class ViewHolder(
-        private val itemView: View,
-        val learningTitle: TextView = itemView.findViewById(R.id.learning_header_textview),
-        val learningDescription: TextView = itemView.findViewById(R.id.learning_desc_textView)
-    ) : RecyclerView.ViewHolder(itemView)
+        private val groupItemView: View,
+        val header: TextView = groupItemView.findViewById(R.id.learning_group_title)
+    ) : RecyclerView.ViewHolder(groupItemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-       val itemViewDataBinding = DataBindingUtil.inflate<ViewDataBinding>(
-           LayoutInflater.from(parent.context),
-           R.layout.learning_item_view,
-           parent,
-           false)
-
-        return ViewHolder(itemViewDataBinding.root)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.learning_item_view, parent, false)
         /*
-        val view = LayoutInflater.from(appContext)
-            .inflate(R.layout.learning_group_item_view,parent,false)
-        val viewHolder = ViewHolder(view)
-        return viewHolder
-*/
+        val learningRecyclerView: RecyclerView = view.findViewById(R.id.learning_item_recycleview)
 
+        learningRecyclerView.apply {
+            val linearLayoutManager = LinearLayoutManager(appContext, LinearLayoutManager.VERTICAL,false)
+            layoutManager = linearLayoutManager
+        }*/
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return learnigs.size
+       return learningTiers.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).learningTitle.text = learnigs[position].name
-        (holder as ViewHolder).learningDescription.text = learnigs[position].description
+        (holder as ViewHolder).header.text = learningTiers[position].name
     }
+
+    fun onDataChanged(newLearnings: ArrayList<Learning>){
+        learningsList = newLearnings
+        learningTiers.clear()
+        learningsList.forEach { learning ->
+            if(!learningTiers.contains(learning.tier)){
+                learningTiers.add(learning.tier)
+            }
+        }
+
+        notifyDataSetChanged()
+    }
+
+
 
 }

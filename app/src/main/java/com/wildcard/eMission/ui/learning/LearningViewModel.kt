@@ -30,6 +30,15 @@ class LearningViewModel : ViewModel() {
         learnings.add(
             Learning(
                 rId = "02",
+                name = "testing too",
+                description = "testing testing",
+                tier=LearningTier.HOME_APPLIANCES
+            )
+        )
+
+        learnings.add(
+            Learning(
+                rId = "03",
                 name = "test 2",
                 description = "just testing 2",
                 tier = LearningTier.TRAVELING

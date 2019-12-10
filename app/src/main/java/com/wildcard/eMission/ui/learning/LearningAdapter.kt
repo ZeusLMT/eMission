@@ -18,6 +18,7 @@ class LearningAdapter(
     private var learnigs: List<Learning>
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
+
     class ViewHolder(
         private val itemView: View,
         val learningTitle: TextView = itemView.findViewById(R.id.learning_header_textview),
@@ -25,19 +26,20 @@ class LearningAdapter(
     ) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        /*
+
        val itemViewDataBinding = DataBindingUtil.inflate<ViewDataBinding>(
            LayoutInflater.from(parent.context),
            R.layout.learning_item_view,
            parent,
            false)
 
-        return ViewHolder(itemViewDataBinding.root)*/
+        return ViewHolder(itemViewDataBinding.root)
+        /*
         val view = LayoutInflater.from(appContext)
             .inflate(R.layout.learning_group_item_view,parent,false)
         val viewHolder = ViewHolder(view)
         return viewHolder
-
+*/
 
     }
 

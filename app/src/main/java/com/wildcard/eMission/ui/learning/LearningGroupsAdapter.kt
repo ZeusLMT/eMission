@@ -34,13 +34,15 @@ class LearningGroupsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.learning_group_item_view, parent, false)
-        /*
+
         val learningRecyclerView: RecyclerView = view.findViewById(R.id.learning_item_recycleview)
+        /*
         learningRecyclerView.apply {
             val linearLayoutManager = LinearLayoutManager(appContext, LinearLayoutManager.VERTICAL,false)
             layoutManager = linearLayoutManager
             setRecycledViewPool(viewpool)
             setItemViewCacheSize(2)
+            setHasFixedSize(true)
         }*/
         return ViewHolder(view)
     }
@@ -75,7 +77,9 @@ class LearningGroupsAdapter(
                 learning.tier == tier
             }
             childAdapters.add(LearningAdapter(appContext, learnings))
-
+            for(learning in learnings){
+                Timber.i("${learning.tier}: ${learning.name} ${learning.description}")
+            }
         }
 
     }

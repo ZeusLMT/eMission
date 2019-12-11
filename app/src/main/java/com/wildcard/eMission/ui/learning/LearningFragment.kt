@@ -20,7 +20,7 @@ import timber.log.Timber
 class LearningFragment : Fragment() {
 
     private lateinit var learningViewModel: LearningViewModel
-    private lateinit var learningGroupsAdapter: LearningAdapter
+    private lateinit var learningAdapter: LearningAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,12 +75,12 @@ class LearningFragment : Fragment() {
     }
 
     private fun setupLearningsList(){
-        learningGroupsAdapter = LearningAdapter(context!!)
+        learningAdapter = LearningAdapter(context!!)
         learning_group_recycle_view.layoutManager = LinearLayoutManager(context)
-        learning_group_recycle_view.adapter = learningGroupsAdapter
+        learning_group_recycle_view.adapter = learningAdapter
 
         learningViewModel.learningsList.observe(this, Observer { learningsList ->
-            learningGroupsAdapter.onDataChanged(learningsList)
+            learningAdapter.onDataChanged(learningsList)
         })
     }
 

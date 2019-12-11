@@ -21,8 +21,12 @@ class LearningViewModel : ViewModel() {
         learnings.add(
             Learning(
                 rId = "01",
-                name = "test1",
-                description = "just testing 1",
+                name = "Human influence",
+                name_fin = "Ihmisen vaikutus",
+                description = "Already in year 1896 Swedish scientist Svante Arrhenius proposed theory that humans can make greenhouse effect stronger with certain emissions." +
+                        "The greenhouse effect was first discovered in 1824 by Joseph Fourier.",
+                description_fin = "Jo vuonna 1896 ruotslainen tiedemies Svante Arrhenius esitti teorian, että ihminen voi voimistaa kasvihuoneilmiötä toimillaan." +
+                        "Kasvihuoneilmiön havaitsi Joseph Fourier ensimmäisen kerran vuonna 1824.",
                 tier = LearningTier.BACKGROUND
             )
         )
@@ -30,8 +34,12 @@ class LearningViewModel : ViewModel() {
         learnings.add(
             Learning(
                 rId = "02",
-                name = "testing too",
-                description = "testing testing",
+                name = "Energy labels",
+                name_fin = "Energialuokat",
+                description = "When one is buying home appliances it is good to check energy consumption. There can be energy labels from A to G to express this. G means highest consumption. " +
+                        "Sometimes there is even labels A+ and A++",
+                description_fin = "Ostaessasi kodinkonetta on hyvä tarkistaa energiankulutus. Se voidaan ilmaista kirjaimilla A:sta G:hen, " +
+                        "G:n ollessa energiaa tuhlaavin. Joskus on käytössä myös A+ ja A++",
                 tier=LearningTier.HOME_APPLIANCES
             )
         )
@@ -39,20 +47,14 @@ class LearningViewModel : ViewModel() {
         learnings.add(
             Learning(
                 rId="03",
-                name="will it crash",
-                description = "wonder will it crash",
+                name="Ice in the freezer",
+                name_fin = "Jäinen pakastin",
+                description = "If there is thick layer of ice in freezer the energy consumption will be higher. It wood be good to defrost the freezer once a year.",
+                description_fin = "Jos pakastimessa on paksu jääkerros, tämä kasvattaa sen energiankulutusta. Tästä syystä olisi hyvä sulattaa jäät pois pakastimesta kerran vuodessa.",
                 tier=LearningTier.HOME_APPLIANCES
             )
         )
 
-        learnings.add(
-            Learning(
-                rId = "03",
-                name = "test 2",
-                description = "just testing 2",
-                tier = LearningTier.TRAVELING
-            )
-        )
 
         return learnings
     }

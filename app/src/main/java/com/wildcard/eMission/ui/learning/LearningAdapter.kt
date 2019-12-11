@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.model.Learning
 import com.wildcard.eMission.model.LearningTier
+import java.util.*
+import kotlin.collections.ArrayList
 
 class LearningAdapter(
     private val appContext: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -36,9 +38,27 @@ class LearningAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).header.text = learningsList[position].name
-        (holder as ViewHolder).description.text = learningsList[position].description
+
+        val language = Locale.getDefault().displayLanguage
+        if(language.equals("suomi")) {
+            val tier = learningsList[position].tier.name
+            var tier_fin = tier
+            if (tier.equals(LearningTier.HOME_APPLIANCES.name)){
+                tier_fin = "KODINKONEET"
+            }else if(tier.equals(LearningTier.BACKGROUND.name)){
+                tier_fin = "TAUSTAA"
+            }else if(tier.equals(LearningTier.TRAVELING.name)){
+                tier_fin = "MATKUSTUS"
+            }
+            (holder as ViewHolder).header.text = "$tier_fin: ${learningsList[position].name_fin}"
+            holder.description.text = learningsList[position].description_fin
+        }else {
+            (holder as ViewHolder).header.text = "${learningsList[position].tier}: ${learningsList[position].name}"
+            holder.description.text = learningsList[position].description
+        }
     }
+
+
 
     fun onDataChanged(newLearnings: ArrayList<Learning>){
         learningsList = newLearnings

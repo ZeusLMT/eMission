@@ -24,7 +24,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "01",
                 name = "Title: Private",
-                name_fin = "Otsikko: yksityinen",
+                name_fin = "Otsikko: Yksityinen",
                 image = "file:///android_asset/rewards_title_green.jpg",
                 tier = RewardTier.PRIVATE_GREEN,
                 type = RewardType.TITLE,
@@ -192,7 +192,7 @@ class RewardsViewModel : ViewModel() {
             Reward(
                 rId = "13",
                 name = "Pack: Nature",
-                name_fin = "Paketti: Majuri",
+                name_fin = "Paketti: Luonto",
                 image = "",
                 tier = RewardTier.MAJOR_NATURE,
                 points = 4000,

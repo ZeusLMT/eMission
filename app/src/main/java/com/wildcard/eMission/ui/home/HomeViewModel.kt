@@ -485,7 +485,7 @@ class HomeViewModel : ViewModel() {
                 name = "Tap water <3",
                 name_fin = "Hanavesi <3",
                 description = "Don't buy water in plastic bottle",
-                description_fin = "Älä osta pullovettä",
+                description_fin = "Älä osta vettä muovipullossa",
                 points = 83,
                 challengePack = ChallengePack.SET_3,
                 singleTask = true,

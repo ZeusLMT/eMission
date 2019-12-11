@@ -26,6 +26,10 @@
     <!--    Rewards Fragment strings-->
     <string name="claim_button">Claim</string>
     <string name="reward_claimed_text">You\'ve earned it</string>
+    <string name="reward_toast_ranked_up">You\'ve ranked up to a new title</string>
+    <string name="reward_toast_unlock_challenges">You\'ve unlocked new challenges</string>
+    <string name="reward_toast_applying_theme">Applying new theme...</string>
+    <string name="reward_toast_unlock_picture">You\'ve unlocked new profile picture</string>
 
 
     <!-- starting questions pages -->

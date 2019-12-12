@@ -345,7 +345,7 @@ class HomeViewModel : ViewModel() {
             Challenge(
                 cId = "019",
                 name = "I <3 My Bicycle",
-                name_fin= "<3 pyörääni",
+                name_fin= "Rakastan polkupyörääni",
                 description = "Cycle to school/work",
                 description_fin = "Mene kouluun/töihin pyöräillen",
                 points = 1506,
@@ -485,7 +485,7 @@ class HomeViewModel : ViewModel() {
                 name = "Tap water <3",
                 name_fin = "Hanavesi <3",
                 description = "Don't buy water in plastic bottle",
-                description_fin = "Älä osta pullovettä",
+                description_fin = "Älä osta vettä muovipullossa",
                 points = 83,
                 challengePack = ChallengePack.SET_3,
                 singleTask = true,

@@ -31,6 +31,7 @@ import com.wildcard.eMission.model.RewardStatus
 import com.wildcard.eMission.model.RewardType
 import kotlinx.android.synthetic.main.fragment_rewards.*
 import timber.log.Timber
+import java.util.*
 
 class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     private lateinit var rewardsViewModel: RewardsViewModel
@@ -214,13 +215,12 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
         when (reward.type) {
             RewardType.TITLE -> activityViewModel.updateUserData { user ->
                 user.title = reward.content as String
-                Toast.makeText(context, "You've ranked up to a new title", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(context, getString(R.string.reward_toast_ranked_up), Toast.LENGTH_SHORT).show()
             }
 
             RewardType.CHALLENGE_PACK -> {
                 activityViewModel.unlockedChallengePacks.add(reward.content as ChallengePack)
-                Toast.makeText(context, "You've unlocked new challenges", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.reward_toast_unlock_challenges), Toast.LENGTH_SHORT).show()
 
                 runInBackground(
                     Runnable {
@@ -236,7 +236,7 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
             RewardType.ACTION -> TODO()
 
             RewardType.THEME -> {
-                Toast.makeText(context, "Applying new theme...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.reward_toast_applying_theme), Toast.LENGTH_SHORT).show()
 
                 runInBackground(
                     Runnable {
@@ -253,7 +253,7 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
 
             RewardType.PROFILE_PIC -> activityViewModel.updateUserData { user ->
                 user.picture = reward.content as String
-                Toast.makeText(context, "You've unlocked new profile picture", Toast.LENGTH_SHORT)
+                Toast.makeText(context, getString(R.string.reward_toast_unlock_picture), Toast.LENGTH_SHORT)
                     .show()
             }
         }

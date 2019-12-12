@@ -24,6 +24,10 @@
     <!-- Rewards Fragment strings-->
     <string name="claim_button">Lunasta</string>
     <string name="reward_claimed_text">Ansaitsit tämän</string>
+    <string name="reward_toast_ranked_up">Rankkauksesi nousi uudelle tasolle.</string>
+    <string name="reward_toast_unlock_challenges">Sait avattua uusia haasteita.</string>
+    <string name="reward_toast_applying_theme">Otetaan käyttöön uusi teema...</string>
+    <string name="reward_toast_unlock_picture">Sait avattua uuden profiilikuvan</string>
 
     <!-- starting questions pages -->
     <string name="fragment_living_style_question">Asutko kerrostalohuoneistossa?</string>

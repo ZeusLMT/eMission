@@ -98,7 +98,7 @@ class RewardsViewModel : ViewModel() {
                 image = "file:///android_asset/rewards_profile_2.jpg",
                 tier = RewardTier.SERGEANT_FLOWER,
                 points = 1000,
-                type = RewardType.CHALLENGE_PACK,
+                type = RewardType.PROFILE_PIC,
                 status = RewardStatus.AVAILABLE,
                 content = "file:///android_asset/rewards_profile_2.jpg"
             )

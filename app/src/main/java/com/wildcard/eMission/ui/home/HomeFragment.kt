@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -145,9 +146,11 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
         val language = Locale.getDefault().displayLanguage
         if (language == "suomi") {
             Toast.makeText(context, "Näytetään info haasteelle ${challenge.name_fin}", Toast.LENGTH_SHORT).show()
-        }else {
+        } else {
             Toast.makeText(context, "Showing info for ${challenge.name}", Toast.LENGTH_SHORT).show()
         }
+
+        findNavController().navigate(R.id.navigation_learning)
     }
 
     private fun setupActionBar() {

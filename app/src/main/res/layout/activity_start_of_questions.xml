@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/gradient_backgrounds_green_blue_vertical"
->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_backgrounds_green_blue_vertical">
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/questions_starting_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/questions_starting_guideline"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50"/>
+        app:layout_constraintGuide_percent="0.50" />
 
     <TextView
         android:id="@+id/questions_starting_phrase_textView"
@@ -35,8 +33,8 @@
         android:id="@+id/questions_starting_explanation_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="40dp"
         android:fontFamily="@font/lato"
         android:gravity="center"
@@ -45,32 +43,36 @@
         app:layout_constraintBottom_toTopOf="@id/start_questions_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <ImageButton
-            android:src="@drawable/ic_navigate_next_black_36dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/start_questions_button" android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:background="@null"
-            android:tint="#FFFFFF"
-            android:contentDescription="@string/description_forward"
-    />
+        android:id="@+id/start_questions_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="30dp"
+        android:background="@null"
+        android:contentDescription="@string/description_forward"
+        android:src="@drawable/ic_navigate_next_black_36dp"
+        android:tint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!--https://stackoverflow.com/questions/22105775/imageview-in-circular-through-xml-->
     <androidx.cardview.widget.CardView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        app:cardCornerRadius="90dp"
+        app:layout_constraintBottom_toTopOf="@+id/questions_starting_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo_imageView"
             android:layout_width="180dp"
             android:layout_height="180dp"
-            app:cardCornerRadius="90dp"
-        app:layout_constraintBottom_toTopOf="@+id/questions_starting_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <ImageView
-                android:id="@+id/logo_imageView"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:contentDescription="@string/description_app_logo" />
+            android:contentDescription="@string/description_app_logo" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

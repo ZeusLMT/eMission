@@ -225,9 +225,10 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
                         todayChallenges.add(it)
                     }
 
-                homeViewModel.todayChallenges.value?.clear()
                 activity!!.runOnUiThread {
+                    homeViewModel.todayChallenges.value?.clear()
                     homeViewModel.todayChallenges.value = todayChallenges
+                    challengesListAdapter.notifyDataSetChanged()
                 }
 
             }

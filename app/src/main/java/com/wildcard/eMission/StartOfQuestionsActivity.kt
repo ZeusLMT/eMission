@@ -12,13 +12,14 @@ class StartOfQuestionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_of_questions)
 
-        Picasso.get().load("file:///android_asset/onboarding_logo.jpg").resize(
+        Picasso.get().load("file:///android_asset/eMission.png").resize(
             500,
             500
         ).into(logo_imageView)
 
         start_questions_button.setOnClickListener{
             val intent = Intent(this, QuestionPagesActivity::class.java)
+            intent.putExtra(Utils.PREF_REGENERATE, true)
             startActivity(intent)
         }
     }

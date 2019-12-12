@@ -96,7 +96,7 @@ class YouFragment : Fragment() {
                         500,
                         500
                     ).into(most_recent_reward_imageView)
-                    RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.jpg").resize(
+                    RewardType.PROFILE_PIC -> Picasso.get().load("file:///android_asset/rewards_profile.png").resize(
                         500,
                         500
                     ).into(most_recent_reward_imageView)
@@ -130,16 +130,20 @@ class YouFragment : Fragment() {
             big_challenge_value_textView.text = biggestChallenge.name
         } else {
             big_challenge_cardView.visibility = View.GONE
+            streak_cardView.visibility = View.GONE
+
         }
     }
 
     private fun setupStreak() {
-        streak_textView.text = getString(R.string.streak_text)
-        streak_value_textView.text = activityViewModel.user.completed_challenges.size.toString()
-        Picasso.get().load("file:///android_asset/graphs_demo.jpg").resize(
-            500,
-            500
-        ).into(streak_imageView)
+        if (streak_cardView.visibility != View.GONE) {
+            streak_textView.text = getString(R.string.streak_text)
+            streak_value_textView.text = activityViewModel.user.completed_challenges.size.toString()
+            Picasso.get().load("file:///android_asset/graphs_demo.jpg").resize(
+                500,
+                500
+            ).into(streak_imageView)
+        }
     }
 
     private fun setupActionBar() {

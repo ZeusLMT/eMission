@@ -12,6 +12,10 @@ import com.squareup.picasso.Picasso
 import com.wildcard.eMission.EmissionApplication
 import com.wildcard.eMission.R
 
+/**
+    This fragment is part of starting questions and here is asked are you vegetarian or not. The
+    answer is stored in shared preferences.
+ */
 class DietFragment: Fragment(){
 
     private var delegate: ReturnToMainActivityDelegate? = null
@@ -58,6 +62,9 @@ class DietFragment: Fragment(){
     }
 }
 
+/*
+    To be able to detect from Question Pages Activity, when the button is pressed
+ */
 interface ReturnToMainActivityDelegate{
 
     fun returnToMainActivity()

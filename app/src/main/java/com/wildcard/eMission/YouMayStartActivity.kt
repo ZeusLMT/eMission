@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_you_may_start.*
 
+/**
+    This is shown after starting questions and it just tell that all questions are answered and
+    one can proceed to main part of the app. Leads to Main Activity.
+ */
 class YouMayStartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

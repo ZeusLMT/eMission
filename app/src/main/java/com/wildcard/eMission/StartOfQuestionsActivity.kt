@@ -6,19 +6,24 @@ import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_start_of_questions.*
 
+/**
+    If user don't have answers to starting question in shared preferences, this welcoming to
+    starting questions is shown and here one can proceed to those questions.
+ */
 class StartOfQuestionsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_of_questions)
 
-        Picasso.get().load("file:///android_asset/onboarding_logo.jpg").resize(
+        Picasso.get().load("file:///android_asset/eMission.png").resize(
             500,
             500
         ).into(logo_imageView)
 
         start_questions_button.setOnClickListener{
             val intent = Intent(this, QuestionPagesActivity::class.java)
+            intent.putExtra(Utils.PREF_REGENERATE, true)
             startActivity(intent)
         }
     }

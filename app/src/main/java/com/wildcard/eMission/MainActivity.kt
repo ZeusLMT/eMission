@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         showBeginingQuestions()
     }
 
-    fun showBeginingQuestions(){
+    private fun showBeginingQuestions() {
         val sharedPreference =
             this.getSharedPreferences(EmissionApplication.PREF_NAME, Context.MODE_PRIVATE)
 

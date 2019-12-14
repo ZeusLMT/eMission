@@ -12,6 +12,11 @@ import com.squareup.picasso.Picasso
 import com.wildcard.eMission.EmissionApplication
 import com.wildcard.eMission.R
 
+/**
+    This fragment is needed to show question of main transportation method in starting questions.
+    One can choose between choises: bus, car, train or bicycle. The answer is stored in shared
+    preferences.
+ */
 class TransportationFragment: Fragment(){
 
     private var delegate: ToDietDelegate? = null
@@ -84,6 +89,9 @@ class TransportationFragment: Fragment(){
     }
 }
 
+/*
+    This is needed to detect button press from Question Pages Activity.
+ */
 interface ToDietDelegate{
     fun toDietFragment()
 }

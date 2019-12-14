@@ -2,6 +2,8 @@ package com.wildcard.eMission.ui.home
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -31,6 +34,9 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var activityViewModel: ActivityViewModel
     private lateinit var challengesListAdapter: ChallengesListAdapter
+    /** Handler to run tests in the background */
+    private var handler: Handler? = null
+    private var handlerThread: HandlerThread? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,14 +63,45 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     override fun onResume() {
         super.onResume()
         setupActionBar()
+
+        if (handler == null) {
+            handlerThread = HandlerThread("inference")
+            handlerThread?.start()
+            handler = Handler(handlerThread?.looper!!)
+        }
+    }
+
+    override fun onPause() {
+        handlerThread?.quitSafely()
+        try {
+            handlerThread?.join()
+            handlerThread = null
+            handler = null
+        } catch (e: InterruptedException) {
+            Timber.e(e, "Exception!")
+        }
+
+        super.onPause()
+    }
+
+    @Synchronized
+    private fun runInBackground(r: Runnable) {
+        if (handler != null) {
+            Timber.d("Handler is not null")
+            handler?.post(r)
+        } else {
+            Timber.d("Handler is null")
+            handlerThread = HandlerThread("inference")
+            handlerThread?.start()
+            handler = Handler(handlerThread?.looper!!)
+            handler?.post(r)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setupChallengesList()
-
-        Timber.d("User: ${activityViewModel.user}")
 
         if (homeViewModel.todayChallenges.value.isNullOrEmpty() && !(activity!!.getSharedPreferences(
                 EmissionApplication.PREF_NAME,
@@ -99,7 +136,6 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
             }
         }
 
-
         if (todayChallenges.all { it.status == CompleteStatus.COMPLETE }) {
             Timber.d("Completed all challenges")
             showCompleteDialog()
@@ -108,11 +144,13 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
 
     override fun onInfoSelected(challenge: Challenge, position: Int) {
         val language = Locale.getDefault().displayLanguage
-        if(language.equals("suomi")) {
+        if (language == "suomi") {
             Toast.makeText(context, "Näytetään info haasteelle ${challenge.name_fin}", Toast.LENGTH_SHORT).show()
-        }else {
+        } else {
             Toast.makeText(context, "Showing info for ${challenge.name}", Toast.LENGTH_SHORT).show()
         }
+
+        findNavController().navigate(R.id.navigation_learning)
     }
 
     private fun setupActionBar() {
@@ -149,46 +187,55 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     }
 
     private fun generateTodayChallenges() {
-        val sharedPreferences =
-            activity!!.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
-        val jsonString = sharedPreferences.getString(Utils.PREF_UNLOCKED_PACK, "")!!
+        runInBackground(
+            Runnable {
+                val sharedPreferences =
+                    activity!!.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+                val jsonString = sharedPreferences.getString(Utils.PREF_UNLOCKED_PACK, "")!!
 
-        if (jsonString.isNotEmpty()) {
-            val list = Gson().fromJson(jsonString, Array<ChallengePack>::class.java).toList()
-            val arrayList = arrayListOf<ChallengePack>()
-            arrayList.addAll(list)
-            activityViewModel.unlockedChallengePacks = arrayList
-        }
+                if (jsonString.isNotEmpty()) {
+                    val list =
+                        Gson().fromJson(jsonString, Array<ChallengePack>::class.java).toList()
+                    val arrayList = arrayListOf<ChallengePack>()
+                    arrayList.addAll(list)
+                    activityViewModel.unlockedChallengePacks = arrayList
+                }
 
-        Timber.d("Unlocked: ${activityViewModel.unlockedChallengePacks}")
+                Timber.d("Unlocked: ${activityViewModel.unlockedChallengePacks}")
 
-        val availableChallenges = homeViewModel.allChallenges.filter { challenge ->
-            activityViewModel.unlockedChallengePacks.contains(challenge.challengePack)
-        }
+                val availableChallenges = homeViewModel.allChallenges.filter { challenge ->
+                    activityViewModel.unlockedChallengePacks.contains(challenge.challengePack)
+                }
 
-        val personalizedChallenges = availableChallenges.filter { challenge ->
-            when {
-                (challenge.diet.isNotEmpty() && !challenge.diet.contains(activityViewModel.user.diet)) -> false
-                (challenge.housingType.isNotEmpty() && !challenge.housingType.contains(
-                    activityViewModel.user.housingType
-                )) -> false
-                (challenge.transportation.isNotEmpty() && challenge.transportation.intersect(
-                    activityViewModel.user.transportation
-                ).isEmpty()) -> false
-                else -> true
+                val personalizedChallenges = availableChallenges.filter { challenge ->
+                    when {
+                        (challenge.diet.isNotEmpty() && !challenge.diet.contains(activityViewModel.user.diet)) -> false
+                        (challenge.housingType.isNotEmpty() && !challenge.housingType.contains(
+                            activityViewModel.user.housingType
+                        )) -> false
+                        (challenge.transportation.isNotEmpty() && challenge.transportation.intersect(
+                            activityViewModel.user.transportation
+                        ).isEmpty()) -> false
+                        else -> true
+                    }
+                }
+                val todayChallenges = arrayListOf<Challenge>()
+                personalizedChallenges
+                    .shuffled()
+                    .subList(0, 5)
+                    .forEach {
+                        it.status = CompleteStatus.UNSTARTED
+                        todayChallenges.add(it)
+                    }
+
+                activity!!.runOnUiThread {
+                    homeViewModel.todayChallenges.value?.clear()
+                    homeViewModel.todayChallenges.value = todayChallenges
+                    challengesListAdapter.notifyDataSetChanged()
+                }
+
             }
-        }
-        val todayChallenges = arrayListOf<Challenge>()
-        personalizedChallenges
-            .shuffled()
-            .subList(0, 5)
-            .forEach {
-            it.status = CompleteStatus.UNSTARTED
-            todayChallenges.add(it)
-        }
-
-        homeViewModel.todayChallenges.value?.clear()
-        homeViewModel.todayChallenges.value = todayChallenges
+        )
     }
 
     private fun showCompleteDialog() {

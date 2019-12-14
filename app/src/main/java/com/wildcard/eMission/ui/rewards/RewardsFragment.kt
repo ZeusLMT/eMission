@@ -2,6 +2,8 @@ package com.wildcard.eMission.ui.rewards
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +37,9 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     private lateinit var rewardsViewModel: RewardsViewModel
     private lateinit var activityViewModel: ActivityViewModel
     private lateinit var rewardGroupsAdapter: RewardGroupsAdapter
+    /** Handler to run tests in the background */
+    private var handler: Handler? = null
+    private var handlerThread: HandlerThread? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +67,39 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
             context?.getColorStateList(R.color.nav_item_color_state_list_2)
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList =
             context?.getColorStateList(R.color.nav_item_color_state_list_2)
+
+        if (handler == null) {
+            handlerThread = HandlerThread("inference")
+            handlerThread?.start()
+            handler = Handler(handlerThread?.looper!!)
+        }
+    }
+
+    override fun onPause() {
+        handlerThread?.quitSafely()
+        try {
+            handlerThread?.join()
+            handlerThread = null
+            handler = null
+        } catch (e: InterruptedException) {
+            Timber.e(e, "Exception!")
+        }
+
+        super.onPause()
+    }
+
+    @Synchronized
+    private fun runInBackground(r: Runnable) {
+        if (handler != null) {
+            Timber.d("Handler is not null")
+            handler?.post(r)
+        } else {
+            Timber.d("Handler is null")
+            handlerThread = HandlerThread("inference")
+            handlerThread?.start()
+            handler = Handler(handlerThread?.looper!!)
+            handler?.post(r)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -112,13 +150,19 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     }
 
     private fun getRewardsList() {
-        val allRewards = rewardsViewModel.getRewardsList()
-        allRewards.forEach { reward ->
-            if (activityViewModel.user.rewards.find { completedReward -> completedReward == reward } != null) {
-                reward.status = RewardStatus.CLAIMED
+        runInBackground(
+            Runnable {
+                val allRewards = rewardsViewModel.getRewardsList()
+                allRewards.forEach { reward ->
+                    if (activityViewModel.user.rewards.find { completedReward -> completedReward == reward } != null) {
+                        reward.status = RewardStatus.CLAIMED
+                    }
+                }
+                activity!!.runOnUiThread {
+                    rewardsViewModel.rewardsList.value = allRewards
+                }
             }
-        }
-        rewardsViewModel.rewardsList.value = allRewards
+        )
     }
 
     private fun setupRewardsList() {
@@ -168,26 +212,25 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     }
 
     private fun applyReward(reward: Reward) {
-
-
         when (reward.type) {
             RewardType.TITLE -> activityViewModel.updateUserData { user ->
                 user.title = reward.content as String
-
-                Toast.makeText(context, getString(R.string.reward_toast_ranked_up), Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(context, getString(R.string.reward_toast_ranked_up), Toast.LENGTH_SHORT).show()
             }
 
             RewardType.CHALLENGE_PACK -> {
                 activityViewModel.unlockedChallengePacks.add(reward.content as ChallengePack)
-
-                val sharedPreferences =
-                    activity?.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
-                val editor = sharedPreferences?.edit()
-                val jsonString = Gson().toJson(activityViewModel.unlockedChallengePacks)
-                editor?.putString(Utils.PREF_UNLOCKED_PACK, jsonString)?.apply()
-
                 Toast.makeText(context, getString(R.string.reward_toast_unlock_challenges), Toast.LENGTH_SHORT).show()
+
+                runInBackground(
+                    Runnable {
+                        val sharedPreferences =
+                            activity?.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+                        val editor = sharedPreferences?.edit()
+                        val jsonString = Gson().toJson(activityViewModel.unlockedChallengePacks)
+                        editor?.putString(Utils.PREF_UNLOCKED_PACK, jsonString)?.apply()
+                    }
+                )
             }
 
             RewardType.ACTION -> TODO()
@@ -195,11 +238,17 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
             RewardType.THEME -> {
                 Toast.makeText(context, getString(R.string.reward_toast_applying_theme), Toast.LENGTH_SHORT).show()
 
-                val sharedPreferences =
-                    activity?.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
-                val editor = sharedPreferences?.edit()
-                editor?.putString(Utils.PREF_THEME, reward.content as String)?.apply()
-                activity?.recreate()
+                runInBackground(
+                    Runnable {
+                        val sharedPreferences =
+                            activity?.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+                        val editor = sharedPreferences?.edit()
+                        editor?.putString(Utils.PREF_THEME, reward.content as String)?.apply()
+                        activity?.runOnUiThread {
+                            activity?.recreate()
+                        }
+                    }
+                )
             }
 
             RewardType.PROFILE_PIC -> activityViewModel.updateUserData { user ->

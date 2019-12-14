@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wildcard.eMission">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name=".EmissionApplication"
         android:allowBackup="true"
@@ -10,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".YouMayStartActivity"></activity>
-        <activity android:name=".QuestionPagesActivity"></activity>
-        <activity android:name=".StartOfQuestionsActivity"></activity>
+        <activity android:name=".YouMayStartActivity" />
+        <activity android:name=".QuestionPagesActivity" />
+        <activity android:name=".StartOfQuestionsActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

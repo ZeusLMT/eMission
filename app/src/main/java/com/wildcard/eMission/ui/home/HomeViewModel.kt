@@ -184,7 +184,7 @@ class HomeViewModel : ViewModel() {
                 description_fin = "Syö kalaa lihan sijasta",
                 points = 1367,
                 challengePack = ChallengePack.BASIC,
-                singleTask = false,
+                singleTask = true,
                 status = CompleteStatus.UNSTARTED,
                 info = null,
                 diet = arrayListOf(Diet.NON_VEGAN),

@@ -1,5 +1,8 @@
 package com.wildcard.eMission.model
 
+/**
+    This is for structuring needed data to be shown in Learning fragment.
+ */
 data class Learning(
     val rId: String,
     val name: String,

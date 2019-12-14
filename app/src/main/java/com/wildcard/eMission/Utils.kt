@@ -13,6 +13,7 @@ class Utils {
         const val PREF_USER = "CURRENT_USER"
         const val PREF_THEME = "CURRENT_THEME"
         const val PREF_UNLOCKED_PACK = "UNLOCKED_CHALLENGE_PACKS"
+        const val PREF_REGENERATE = "REGENERATE_CHALLENGES"
 
         fun setGradientTextColor(textView: TextView, colorStart: Int, colorEnd: Int) {
             textView.setTextColor(colorEnd)

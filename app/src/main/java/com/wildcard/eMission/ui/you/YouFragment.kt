@@ -33,7 +33,7 @@ class YouFragment : Fragment() {
 
         Picasso
             .get()
-            .load(if (activityViewModel.user.picture.isEmpty()) "file:///android_asset/rewards_profile.jpg" else activityViewModel.user.picture)
+            .load(if (activityViewModel.user.picture.isEmpty()) "file:///android_asset/rewards_profile.png" else activityViewModel.user.picture)
             .resize(
             500,
             500

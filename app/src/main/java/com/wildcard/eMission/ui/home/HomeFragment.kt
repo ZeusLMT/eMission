@@ -222,7 +222,7 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
                 val todayChallenges = arrayListOf<Challenge>()
                 personalizedChallenges
                     .shuffled()
-                    .subList(0, 5)
+                    .subList(0, 3)
                     .forEach {
                         it.status = CompleteStatus.UNSTARTED
                         todayChallenges.add(it)

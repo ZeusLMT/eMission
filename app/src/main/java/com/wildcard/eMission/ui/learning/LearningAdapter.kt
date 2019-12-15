@@ -1,8 +1,6 @@
 package com.wildcard.eMission.ui.learning
 
-import android.content.ClipDescription
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +13,15 @@ import com.wildcard.eMission.model.LearningTier
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+This is for recycler view in Learning fragment. In this is shown various information:
+background information about climate change and some facts and tips concerning carbon
+footprint.
+ */
 class LearningAdapter(
     private val appContext: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     private var learningsList = ArrayList<Learning>()
     private var learningTiers = arrayListOf<LearningTier>()
-
 
 
     class ViewHolder(
@@ -36,9 +38,10 @@ class LearningAdapter(
     }
 
     override fun getItemCount(): Int {
-       return learningsList.size
+        return learningsList.size
     }
 
+    //needs to check what language is on used device, if finnish, shows finnish versions of text
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val language = Locale.getDefault().displayLanguage
@@ -64,6 +67,7 @@ class LearningAdapter(
         holder.tier.setTextColor(ContextCompat.getColor(appContext,setColor(learningsList[position].tier.name)))
     }
 
+    //changes the color of learning category name
     private fun setColor(tier_name: String): Int{
         if (tier_name.equals(LearningTier.HOME_APPLIANCES.name)){
             return R.color.colorPrimary_blue
@@ -76,8 +80,6 @@ class LearningAdapter(
         }
     }
 
-
-
     fun onDataChanged(newLearnings: ArrayList<Learning>){
         learningsList = newLearnings
         learningTiers.clear()
@@ -89,7 +91,6 @@ class LearningAdapter(
 
         notifyDataSetChanged()
     }
-
 
 
 }

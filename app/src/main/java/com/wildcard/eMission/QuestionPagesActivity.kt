@@ -17,7 +17,10 @@ import com.wildcard.eMission.ui.startingquestions.*
 import kotlinx.android.synthetic.main.activity_question_pages.*
 import timber.log.Timber
 
-// interfaces are for getting information from fragments to activity
+/**
+This class is for representing starting questions in separate fragments.
+Interfaces are for getting information from fragments to activity.
+ */
 class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToDietDelegate,
     ReturnToMainActivityDelegate {
     private val amountOfTabs = 3
@@ -47,6 +50,7 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToD
 
         val livingStyleFragment = LivingStyleFragment()
 
+        //to show first fragment
         supportFragmentManager.beginTransaction()
                 .add(R.id.questions_view_fragment_container, livingStyleFragment)
                 .commit()
@@ -89,25 +93,27 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToD
         }
     }
 
+    //after button press in living style fragment, show transportation fragment
     override fun toTransportationFragment(fragment: LivingStyleFragment) {
 
         val transportationFragment = TransportationFragment()
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.questions_view_fragment_container,transportationFragment)
-                .commit()
+            .replace(R.id.questions_view_fragment_container,transportationFragment)
+            .commit()
 
         changeTab(1)
 
     }
 
+    //after button press in transportation fragment, show diet fragment
     override fun toDietFragment() {
 
         val dietFragment = DietFragment()
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.questions_view_fragment_container,dietFragment)
-                .commit()
+            .replace(R.id.questions_view_fragment_container,dietFragment)
+            .commit()
 
         changeTab(2)
     }
@@ -120,6 +126,7 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToD
         startActivity(intent)
     }
 
+    //to be able to store data of the user
     private fun initializeUserAndSave() {
         runInBackground(
             Runnable {

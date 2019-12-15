@@ -14,6 +14,10 @@ import com.squareup.picasso.Picasso
 import com.wildcard.eMission.EmissionApplication
 import com.wildcard.eMission.R
 
+/**
+This Fragment is for starting questions and here is asked, are you living in appartment
+or in other kind of housing. The answer is stored in shared preferences.
+ */
 class LivingStyleFragment : Fragment() {
     private var delegate: ToTransportationDelegate? = null
 
@@ -25,7 +29,7 @@ class LivingStyleFragment : Fragment() {
             Log.i("delegate", "is context now")
         }
 
-        
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,6 +65,9 @@ class LivingStyleFragment : Fragment() {
 
 }
 
+/*
+    This is needed to be able to detect button press in Question Pages Activity
+ */
 interface ToTransportationDelegate {
     fun toTransportationFragment(fragment: LivingStyleFragment)
 }

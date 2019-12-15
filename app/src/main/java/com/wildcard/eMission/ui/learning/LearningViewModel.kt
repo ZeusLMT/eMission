@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.wildcard.eMission.model.Learning
 import com.wildcard.eMission.model.LearningTier
 
+/**
+ * This is used to show the data in learning fragment.
+ * Now there is hardcoded example text, but the content should come from server.
+ */
 class LearningViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
@@ -15,6 +19,7 @@ class LearningViewModel : ViewModel() {
 
     val learningsList = MutableLiveData<ArrayList<Learning>>()
 
+    //examples to show in learning-section
     fun getLearningsList(): ArrayList<Learning> {
         val learnings = ArrayList<Learning>()
 

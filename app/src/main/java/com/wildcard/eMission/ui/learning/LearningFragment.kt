@@ -17,6 +17,10 @@ import com.wildcard.eMission.Utils
 import kotlinx.android.synthetic.main.fragment_learning.*
 import timber.log.Timber
 
+/**
+ * This fragment is shown as part of Main Activity. It uses Learning Adapter to show recycle view.
+ * Now the content of list is just hardcoded example texts from Learning View Model
+ */
 class LearningFragment : Fragment() {
 
     private lateinit var learningViewModel: LearningViewModel
@@ -74,6 +78,7 @@ class LearningFragment : Fragment() {
         optionalLayout.removeAllViews()
     }
 
+    //setting the adapter for recycler view
     private fun setupLearningsList(){
         learningAdapter = LearningAdapter(context!!)
         learning_group_recycle_view.layoutManager = LinearLayoutManager(context)
@@ -84,6 +89,7 @@ class LearningFragment : Fragment() {
         })
     }
 
+    //fetches the example list from learning view model
     private fun getLearningsList(){
         val allLearnings = learningViewModel.getLearningsList()
         learningViewModel.learningsList.value = allLearnings

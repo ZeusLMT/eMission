@@ -1,0 +1,57 @@
+<resources>
+    <!--NavBar items-->
+    <string name="title_home">Haasteet:</string>
+    <string name="subtitle_home">Säästit %1dg hiilidioksidia</string>
+    <string name="title_rewards">Palkinnot</string>
+    <string name="subtitle_rewards">Saat minkä ansaitset</string>
+    <string name="title_learning">Oppiminen</string>
+    <string name="subtitle_learning">Opi kuinka pelastaa maailma</string>
+    <string name="title_you">Sinä</string>
+    <string name="subtitle_you">Seuraa editymistäsi ja saavutuksiasi</string>
+
+    <!-- Dialog strings-->
+    <string name="all_complete_dialog_title">Hyvin tehty!</string>
+    <string name="all_complete_dialog_message">Suoriuduit tämän päivän haasteista.</string>
+
+    <string name="reward_claim_dialog_title">Ei tarpeeksi vihreitä pisteitä</string>
+    <string name="reward_claim_dialog_message">Läpäise haasteita ansaitaksesi enemmän!</string>
+
+    <string name="dialog_cancel">Peru</string>
+
+    <!--Action Bar Items-->
+    <string name="title_settings">Asetukset</string>
+
+    <!-- Rewards Fragment strings-->
+    <string name="claim_button">Lunasta</string>
+    <string name="reward_claimed_text">Ansaitsit tämän</string>
+    <string name="reward_toast_ranked_up">Rankkauksesi nousi uudelle tasolle.</string>
+    <string name="reward_toast_unlock_challenges">Sait avattua uusia haasteita.</string>
+    <string name="reward_toast_applying_theme">Otetaan käyttöön uusi teema...</string>
+    <string name="reward_toast_unlock_picture">Sait avattua uuden profiilikuvan</string>
+
+    <!-- starting questions pages -->
+    <string name="fragment_living_style_question">Asutko kerrostalohuoneistossa?</string>
+    <string name="fragment_diet_question">Oletko kasvissyöjä?</string>
+    <string name="fragment_transportation_question">Mikä on sinun pääkulkumuoto?</string>
+    <string name="fragment_transportation_car">Henkilöauto</string>
+    <string name="fragment_transportation_bicycle">Polkupyörä</string>
+    <string name="fragment_transportation_bus">Linja-auto</string>
+    <string name="fragment_transportation_train">Juna</string>
+    <string name="questions_start_page_phrase">Pienillä teoilla suuria vaikutuksia. Hiilineutraalin Helsingin puolesta.</string>
+    <string name="questions_start_page_explanation">Vastaa seuraaviin kolmeen kysymykseen sisällön mukauttamiseksi</string>
+    <string name="button_yes">Kyllä</string>
+    <string name="button_no">Ei</string>
+    <string name="you_may_start_youre_set">Valmista tuli!</string>
+    <string name="you_may_start_start_button">Aloita</string>
+    <string name="you_may_start_settings_instructions">Voit mukauttaa sovellusta lisää asetuksista käsin</string>
+
+    <!-- image content descriptions-->
+    <string name="description_forward">Etene</string>
+    <string name="description_app_logo">Sovelluksen logo</string>
+
+    <!-- you fragment strings-->
+    <string name="most_recent_reward_text">Viimeisin palkinto</string>
+    <string name="biggest_impact_challenge_text">Haaste, jolla suurin vaikutus</string>
+    <string name="streak_text">Nykyinen sarja</string>
+
+</resources>

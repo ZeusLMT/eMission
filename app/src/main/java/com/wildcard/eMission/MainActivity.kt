@@ -3,32 +3,41 @@ package com.wildcard.eMission
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
+import com.wildcard.eMission.databinding.ActivityMainBinding
+import com.wildcard.eMission.databinding.ActivityQuestionPagesBinding
+import com.wildcard.eMission.databinding.ActivityStartOfQuestionsBinding
 import com.wildcard.eMission.model.User
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var activityViewModel: ActivityViewModel
+    private lateinit var binding: ActivityMainBinding
+    private val activityViewModel: ActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme()
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.title = ""
 
         val navController = findNavController(R.id.nav_host_fragment)
+        navController.setGraph(R.navigation.mobile_navigation)
         navView.setupWithNavController(navController)
 
-        activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel::class.java)
         readUserDataFromSP()
         activityViewModel.writeUserToSP.observe(this, Observer { write ->
             if (write) {

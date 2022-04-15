@@ -13,8 +13,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,16 +24,18 @@ import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.EmissionApplication
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import com.wildcard.eMission.databinding.FragmentHomeBinding
 import com.wildcard.eMission.model.Challenge
 import com.wildcard.eMission.model.ChallengePack
 import com.wildcard.eMission.model.CompleteStatus
-import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 import java.util.*
 
 class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var activityViewModel: ActivityViewModel
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val activityViewModel: ActivityViewModel by activityViewModels()
     private lateinit var challengesListAdapter: ChallengesListAdapter
     /** Handler to run tests in the background */
     private var handler: Handler? = null
@@ -42,22 +45,36 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        homeViewModel = ViewModelProviders.of(activity!!).get(HomeViewModel::class.java)
-        activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
-
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_1)
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_1)
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.apply {
+            itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_1)
+            itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_1)
+        }
 
         activityViewModel.userDataUpdated.observe(this, Observer {
             homeViewModel.carbonSaved.value = activityViewModel.user.carbonSaved.toInt()
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupChallengesList()
+
+        if (homeViewModel.todayChallenges.value.isNullOrEmpty() && !(requireActivity().getSharedPreferences(
+                EmissionApplication.PREF_NAME,
+                Context.MODE_PRIVATE
+            ).getBoolean(EmissionApplication.PREF_ONBOARDING, true))
+        ) {
+            generateTodayChallenges()
+        }
     }
 
     override fun onResume() {
@@ -84,6 +101,11 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
         super.onPause()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     @Synchronized
     private fun runInBackground(r: Runnable) {
         if (handler != null) {
@@ -95,20 +117,6 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
             handlerThread?.start()
             handler = Handler(handlerThread?.looper!!)
             handler?.post(r)
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        setupChallengesList()
-
-        if (homeViewModel.todayChallenges.value.isNullOrEmpty() && !(activity!!.getSharedPreferences(
-                EmissionApplication.PREF_NAME,
-                Context.MODE_PRIVATE
-            ).getBoolean(EmissionApplication.PREF_ONBOARDING, true))
-        ) {
-            generateTodayChallenges()
         }
     }
 
@@ -167,8 +175,8 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
 
         Utils.setGradientTextColor(
             actionBarTitle!!,
-            context!!.getColor(R.color.colorPrimary_blue),
-            context!!.getColor(R.color.colorPrimary_green)
+            requireContext().getColor(R.color.colorPrimary_blue),
+            requireContext().getColor(R.color.colorPrimary_green)
         )
 
         val optionalLayout = actionBar.findViewById<LinearLayout>(R.id.optional_layout)
@@ -176,11 +184,11 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
     }
 
     private fun setupChallengesList() {
-        challengesListAdapter = ChallengesListAdapter(context!!,this)
-        challenges_recyclerView.layoutManager = LinearLayoutManager(context)
-        challenges_recyclerView.adapter = challengesListAdapter
+        challengesListAdapter = ChallengesListAdapter(requireContext(),this)
+        binding.challengesRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.challengesRecyclerView.adapter = challengesListAdapter
 
-        homeViewModel.todayChallenges.observe(this, Observer { challenges ->
+        homeViewModel.todayChallenges.observe(viewLifecycleOwner, Observer { challenges ->
             Timber.d("TodayChallenges changed")
             challengesListAdapter.onDataChanged(challenges)
         })
@@ -190,7 +198,7 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
         runInBackground(
             Runnable {
                 val sharedPreferences =
-                    activity!!.getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
+                    requireActivity().getSharedPreferences(Utils.SHARE_PREFS, Context.MODE_PRIVATE)
                 val jsonString = sharedPreferences.getString(Utils.PREF_UNLOCKED_PACK, "")!!
 
                 if (jsonString.isNotEmpty()) {
@@ -228,7 +236,7 @@ class HomeFragment : Fragment(), ChallengesListAdapter.ChallengesListListener {
                         todayChallenges.add(it)
                     }
 
-                activity!!.runOnUiThread {
+                requireActivity().runOnUiThread {
                     homeViewModel.todayChallenges.value?.clear()
                     homeViewModel.todayChallenges.value = todayChallenges
                     challengesListAdapter.notifyDataSetChanged()

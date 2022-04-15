@@ -16,8 +16,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -25,17 +26,19 @@ import com.wildcard.eMission.ActivityViewModel
 import com.wildcard.eMission.BR
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
+import com.wildcard.eMission.databinding.FragmentRewardsBinding
 import com.wildcard.eMission.model.ChallengePack
 import com.wildcard.eMission.model.Reward
 import com.wildcard.eMission.model.RewardStatus
 import com.wildcard.eMission.model.RewardType
-import kotlinx.android.synthetic.main.fragment_rewards.*
 import timber.log.Timber
 import java.util.*
 
 class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
-    private lateinit var rewardsViewModel: RewardsViewModel
-    private lateinit var activityViewModel: ActivityViewModel
+    private var _binding: FragmentRewardsBinding? = null
+    private val binding get() = _binding!!
+    private val rewardsViewModel: RewardsViewModel by viewModels()
+    private val activityViewModel: ActivityViewModel by activityViewModels()
     private lateinit var rewardGroupsAdapter: RewardGroupsAdapter
     /** Handler to run tests in the background */
     private var handler: Handler? = null
@@ -45,28 +48,39 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_rewards, container, false)
+    ): View {
+        _binding = FragmentRewardsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        rewardsViewModel = ViewModelProviders.of(this).get(RewardsViewModel::class.java)
-        activityViewModel = ViewModelProviders.of(activity!!).get(ActivityViewModel::class.java)
 
         activityViewModel.userDataUpdated.observe(this, Observer {
             rewardsViewModel.userPoints.value = activityViewModel.user.rewardPoints
-
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRewardsList()
+
+        Timber.d("Rewards size: ${rewardsViewModel.rewardsList.value?.size}")
+
+        if (rewardsViewModel.rewardsList.value == null) {
+            getRewardsList()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         setupActionBar()
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor =
-            context?.getColorStateList(R.color.nav_item_color_state_list_2)
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList =
-            context?.getColorStateList(R.color.nav_item_color_state_list_2)
+
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.apply {
+            itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_2)
+            itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_2)
+        }
 
         if (handler == null) {
             handlerThread = HandlerThread("inference")
@@ -88,6 +102,11 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
         super.onPause()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     @Synchronized
     private fun runInBackground(r: Runnable) {
         if (handler != null) {
@@ -102,19 +121,6 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        setupRewardsList()
-
-        Timber.d("Rewards size: ${rewardsViewModel.rewardsList.value?.size}")
-
-        if (rewardsViewModel.rewardsList.value == null) {
-            getRewardsList()
-        }
-
-    }
-
     private fun setupActionBar() {
         val actionBar = activity?.findViewById<Toolbar>(R.id.toolbar)
 
@@ -125,8 +131,8 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
 
         Utils.setGradientTextColor(
             actionBarTitle!!,
-            context!!.getColor(R.color.colorPrimary_yellow),
-            context!!.getColor(R.color.colorPrimary_red)
+            requireContext().getColor(R.color.colorPrimary_yellow),
+            requireContext().getColor(R.color.colorPrimary_red)
         )
 
         val optionalLayout = actionBar.findViewById<LinearLayout>(R.id.optional_layout)
@@ -158,7 +164,7 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
                         reward.status = RewardStatus.CLAIMED
                     }
                 }
-                activity!!.runOnUiThread {
+                requireActivity().runOnUiThread {
                     rewardsViewModel.rewardsList.value = allRewards
                 }
             }
@@ -166,11 +172,11 @@ class RewardsFragment : Fragment(), RewardsAdapter.RewardsListListener {
     }
 
     private fun setupRewardsList() {
-        rewardGroupsAdapter = RewardGroupsAdapter(context!!, this)
-        rewards_group_recyclerView.layoutManager = LinearLayoutManager(context)
-        rewards_group_recyclerView.adapter = rewardGroupsAdapter
+        rewardGroupsAdapter = RewardGroupsAdapter(requireContext(), this)
+        binding.rewardsGroupRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.rewardsGroupRecyclerView.adapter = rewardGroupsAdapter
 
-        rewardsViewModel.rewardsList.observe(this, Observer { rewardsList ->
+        rewardsViewModel.rewardsList.observe(viewLifecycleOwner, Observer { rewardsList ->
             Timber.d("Rewards List changed")
             rewardGroupsAdapter.onDataChanged(rewardsList)
         })

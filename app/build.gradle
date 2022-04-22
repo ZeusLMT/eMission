@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    def camerax_version = "1.1.0-beta03"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -64,4 +65,18 @@ dependencies {
 
     //Use GSON to serialize JSON string
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Tensorflow Lite dependencies for Google Play services
+    implementation 'com.google.android.gms:play-services-tflite-java:16.0.0-beta01'
+    // Optional: include Tensorflow Lite Support Library
+    implementation 'com.google.android.gms:play-services-tflite-support:16.0.0-beta01'
+
+    // CameraX library
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-video:${camerax_version}"
+
+    implementation "androidx.camera:camera-view:${camerax_version}"
+    implementation "androidx.camera:camera-extensions:${camerax_version}"
 }

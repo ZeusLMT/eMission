@@ -19,7 +19,10 @@ allprojects {
     repositories {
         google()
         jcenter()
-
+        maven { // repo for TFLite snapshot
+            name 'ossrh-snapshot'
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
     }
 }
 

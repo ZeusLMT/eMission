@@ -1,7 +1,9 @@
 package com.wildcard.eMission.ui.smartvision
 
+import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -9,8 +11,18 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
 import android.widget.TextView
+import android.widget.Toast
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.wildcard.eMission.databinding.ActivitySmartVisionBinding
+import timber.log.Timber
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -21,6 +33,8 @@ class SmartVisionActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySmartVisionBinding
     private lateinit var fullscreenContentLayout: ConstraintLayout
     private val hideHandler = Handler()
+    private var imageCapture: ImageCapture? = null
+    private lateinit var cameraExecutor: ExecutorService
 
     @SuppressLint("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -76,6 +90,14 @@ class SmartVisionActivity : AppCompatActivity() {
 
         isFullscreen = true
 
+        // Request camera permissions
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+        }
+
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContentLayout = binding.fullscreenContentLayout
         fullscreenContentLayout.setOnClickListener { toggle() }
@@ -87,6 +109,26 @@ class SmartVisionActivity : AppCompatActivity() {
         binding.dummyButton.setOnClickListener {
             onBackPressed()
         }
+
+        // Set up the listeners for take photo and video capture buttons
+        binding.imageCaptureButton.setOnClickListener { takePhoto() }
+
+        cameraExecutor = Executors.newSingleThreadExecutor()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults:
+        IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                Toast.makeText(this,
+                    "Permissions not granted by the user.",
+                    Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -96,6 +138,11 @@ class SmartVisionActivity : AppCompatActivity() {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
     }
 
     private fun toggle() {
@@ -141,6 +188,47 @@ class SmartVisionActivity : AppCompatActivity() {
         hideHandler.postDelayed(hideRunnable, delayMillis.toLong())
     }
 
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
+        cameraProviderFuture.addListener({
+            // Used to bind the lifecycle of cameras to the lifecycle owner
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            // Preview
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+                }
+
+            // Select back camera as a default
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                // Unbind use cases before rebinding
+                cameraProvider.unbindAll()
+
+                // Bind use cases to camera
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview)
+
+            } catch(exc: Exception) {
+                Timber.e("Use case binding failed")
+            }
+
+        }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun takePhoto() {
+
+    }
+
     companion object {
         /**
          * Whether or not the system UI should be auto-hidden after
@@ -159,5 +247,12 @@ class SmartVisionActivity : AppCompatActivity() {
          * and a change of the status and navigation bar.
          */
         private const val UI_ANIMATION_DELAY = 300
+
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS =
+            mutableListOf (
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO
+            ).toTypedArray()
     }
 }

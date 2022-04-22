@@ -9,12 +9,12 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
+import com.wildcard.eMission.databinding.ActivityQuestionPagesBinding
 import com.wildcard.eMission.model.Diet
 import com.wildcard.eMission.model.HousingType
 import com.wildcard.eMission.model.Transportation
 import com.wildcard.eMission.model.User
 import com.wildcard.eMission.ui.startingquestions.*
-import kotlinx.android.synthetic.main.activity_question_pages.*
 import timber.log.Timber
 
 /**
@@ -23,6 +23,7 @@ Interfaces are for getting information from fragments to activity.
  */
 class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToDietDelegate,
     ReturnToMainActivityDelegate {
+    private lateinit var binding: ActivityQuestionPagesBinding
     private val amountOfTabs = 3
 
     /** Handler to run tests in the background */
@@ -31,18 +32,20 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_question_pages)
+        binding = ActivityQuestionPagesBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
         //adding the tabs to the tab layout
         for(i in 0 until amountOfTabs){
-            questions_view_tablayout.addTab(questions_view_tablayout.newTab().setIcon(R.drawable.tab_selector))
+            binding.questionsViewTablayout.addTab(binding.questionsViewTablayout.newTab().setIcon(R.drawable.tab_selector))
 
         }
 
         //to disable of the clicking of tabs, tabs are meant to change only, when question is answered
         //https://inneka.com/programming/android/disable-tablayout/
-        val tabStrip: LinearLayout = questions_view_tablayout.getChildAt(0) as LinearLayout
+        val tabStrip: LinearLayout = binding.questionsViewTablayout.getChildAt(0) as LinearLayout
         tabStrip.isEnabled = false
         for (i in 0 until tabStrip.childCount) {
            tabStrip.getChildAt(i).isClickable = false
@@ -179,7 +182,7 @@ class QuestionPagesActivity : AppCompatActivity(), ToTransportationDelegate, ToD
     }
 
     private fun changeTab(tab_index: Int){
-        val tab: TabLayout.Tab? = questions_view_tablayout.getTabAt(tab_index)
+        val tab: TabLayout.Tab? = binding.questionsViewTablayout.getTabAt(tab_index)
         tab?.select()
     }
 

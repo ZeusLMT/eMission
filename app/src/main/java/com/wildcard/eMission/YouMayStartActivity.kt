@@ -4,19 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_you_may_start.*
+import com.wildcard.eMission.databinding.ActivityYouMayStartBinding
 
 /**
 This is shown after starting questions and it just tell that all questions are answered and
 one can proceed to main part of the app. Leads to Main Activity.
  */
 class YouMayStartActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityYouMayStartBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_you_may_start)
+        binding = ActivityYouMayStartBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        you_may_start_proceed_button.setOnClickListener{
+        binding.youMayStartProceedButton.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -24,6 +27,6 @@ class YouMayStartActivity : AppCompatActivity() {
         Picasso.get().load("file:///android_asset/onboarding_start.jpg").resize(
             500,
             500
-        ).into(start_imageView)
+        ).into(binding.startImageView)
     }
 }

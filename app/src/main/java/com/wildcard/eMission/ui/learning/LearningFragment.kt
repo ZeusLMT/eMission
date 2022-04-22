@@ -8,13 +8,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wildcard.eMission.R
 import com.wildcard.eMission.Utils
-import kotlinx.android.synthetic.main.fragment_learning.*
+import com.wildcard.eMission.databinding.FragmentLearningBinding
 import timber.log.Timber
 
 /**
@@ -22,8 +22,9 @@ import timber.log.Timber
  * Now the content of list is just hardcoded example texts from Learning View Model
  */
 class LearningFragment : Fragment() {
-
-    private lateinit var learningViewModel: LearningViewModel
+    private var _binding: FragmentLearningBinding? = null
+    private val binding get() = _binding!!
+    private val learningViewModel: LearningViewModel by viewModels()
     private lateinit var learningAdapter: LearningAdapter
 
     override fun onCreateView(
@@ -31,24 +32,21 @@ class LearningFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_learning, container, false)
+        _binding = FragmentLearningBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        learningViewModel =
-            ViewModelProviders.of(this).get(LearningViewModel::class.java)
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_3)
-        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_3)
+
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.apply {
+            itemTextColor = context?.getColorStateList(R.color.nav_item_color_state_list_3)
+            itemIconTintList = context?.getColorStateList(R.color.nav_item_color_state_list_3)
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupActionBar()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupLearningsList()
 
@@ -58,6 +56,16 @@ class LearningFragment : Fragment() {
             getLearningsList()
             Timber.i("Learnings size : ${learningViewModel.learningsList.value?.size}")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupActionBar()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setupActionBar() {
@@ -70,8 +78,8 @@ class LearningFragment : Fragment() {
 
         Utils.setGradientTextColor(
             actionBarTitle!!,
-            context!!.getColor(R.color.colorPrimary_green),
-            context!!.getColor(R.color.colorPrimary_yellow)
+            requireContext().getColor(R.color.colorPrimary_green),
+            requireContext().getColor(R.color.colorPrimary_yellow)
         )
 
         val optionalLayout = actionBar.findViewById<LinearLayout>(R.id.optional_layout)
@@ -80,11 +88,11 @@ class LearningFragment : Fragment() {
 
     //setting the adapter for recycler view
     private fun setupLearningsList(){
-        learningAdapter = LearningAdapter(context!!)
-        learning_group_recycle_view.layoutManager = LinearLayoutManager(context)
-        learning_group_recycle_view.adapter = learningAdapter
+        learningAdapter = LearningAdapter(requireContext())
+        binding.learningGroupRecycleView.layoutManager = LinearLayoutManager(context)
+        binding.learningGroupRecycleView.adapter = learningAdapter
 
-        learningViewModel.learningsList.observe(this, Observer { learningsList ->
+        learningViewModel.learningsList.observe(viewLifecycleOwner, Observer { learningsList ->
             learningAdapter.onDataChanged(learningsList)
         })
     }

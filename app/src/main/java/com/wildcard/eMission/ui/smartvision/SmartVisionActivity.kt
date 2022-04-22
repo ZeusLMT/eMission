@@ -4,21 +4,24 @@ import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
-import android.widget.TextView
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tflite.java.TfLite
+import com.squareup.picasso.Picasso
 import com.wildcard.eMission.databinding.ActivitySmartVisionBinding
 import timber.log.Timber
 import java.util.concurrent.ExecutorService
@@ -33,8 +36,16 @@ class SmartVisionActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySmartVisionBinding
     private lateinit var fullscreenContentLayout: ConstraintLayout
     private val hideHandler = Handler()
-    private var imageCapture: ImageCapture? = null
+
+    // Camera activity related variables
     private lateinit var cameraExecutor: ExecutorService
+    private var pauseFeed = false
+    private var imageRotationDegrees: Int = 0
+
+    // Inference related variables
+//    private lateinit var bitmapBuffer: Bitmap
+    private val initializeTask: Task<Void> by lazy { TfLite.initialize(this) }
+//    private var classifier: ImageClassifier? = null
 
     @SuppressLint("InlinedApi")
     private val hidePart2Runnable = Runnable {
@@ -226,7 +237,39 @@ class SmartVisionActivity : AppCompatActivity() {
     }
 
     private fun takePhoto() {
+        // Disable capture button while changing the state
+        binding.imageCaptureButton.isEnabled = false
+        if (pauseFeed) {
+            // Resume camera feed if paused
+            pauseFeed = false
+            binding.imageFreezeFrame.visibility = View.GONE
+        } else {
+            // Pause inference and show captured frame, ensure the orientation of the image
+            pauseFeed = true
+//            val matrix =
+//                Matrix().apply {
+//                    postRotate(imageRotationDegrees.toFloat())
+//                }
+//            val uprightImage =
+//                Bitmap.createBitmap(
+//                    bitmapBuffer,
+//                    0,
+//                    0,
+//                    bitmapBuffer.width,
+//                    bitmapBuffer.height,
+//                    matrix,
+//                    true
+//                )
+//            binding.imageFreezeFrame.setImageBitmap(uprightImage)
+            Picasso.get().load("file:///android_asset/eMission.png").resize(
+                500,
+                500
+            ).into(binding.imageFreezeFrame)
+            binding.imageFreezeFrame.visibility = View.VISIBLE
+        }
 
+        // Re-enable camera controls
+        binding.imageCaptureButton.isEnabled = true
     }
 
     companion object {

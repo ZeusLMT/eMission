@@ -3,6 +3,7 @@
     package="com.wildcard.eMission">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".EmissionApplication"
         android:allowBackup="true"
@@ -11,6 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.smartvision.SmartVisionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:label="@string/title_activity_smart_vision"
+            android:theme="@style/AppTheme.Fullscreen" />
         <activity android:name=".YouMayStartActivity" />
         <activity android:name=".QuestionPagesActivity" />
         <activity android:name=".StartOfQuestionsActivity" />

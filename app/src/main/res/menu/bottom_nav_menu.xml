@@ -12,6 +12,10 @@
         android:title="@string/title_rewards" />
 
     <item
+        android:id="@+id/smartVisionActivity"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="@string/title_activity_smart_vision" />
+    <item
         android:id="@+id/navigation_learning"
         android:icon="@drawable/ic_info"
         android:title="@string/title_learning" />

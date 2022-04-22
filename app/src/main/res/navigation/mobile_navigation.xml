@@ -27,4 +27,9 @@
         android:name="com.wildcard.eMission.ui.you.YouFragment"
         android:label="@string/title_you"
         tools:layout="@layout/fragment_you" />
+    <activity
+        android:id="@+id/smartVisionActivity"
+        android:name="com.wildcard.eMission.ui.smartvision.SmartVisionActivity"
+        android:label="@string/title_activity_smart_vision"
+        tools:layout="@layout/activity_smart_vision" />
 </navigation>

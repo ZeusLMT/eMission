@@ -57,5 +57,8 @@
     <string name="most_recent_reward_text">Most recent reward</string>
     <string name="biggest_impact_challenge_text">Biggest impact challenge</string>
     <string name="streak_text">Current streak</string>
+    <string name="title_activity_smart_vision">SmartVisionActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

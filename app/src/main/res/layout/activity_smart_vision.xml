@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.EMission.FullscreenContainer"
     tools:context=".ui.smartvision.SmartVisionActivity">
 
@@ -25,7 +24,9 @@
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+        </androidx.camera.view.PreviewView>
 
         <ImageView
             android:id="@+id/image_freeze_frame"
@@ -36,13 +37,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textPredictions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAppearance="@style/TitleAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/image_capture_button"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginBottom="50dp"
             android:elevation="2dp"
-            android:text="Take photo"
+            android:text="Capture"
+            app:cornerRadius="100dp"
             app:layout_constraintBottom_toTopOf="@+id/dummy_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

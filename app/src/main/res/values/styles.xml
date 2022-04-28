@@ -10,6 +10,7 @@
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="android:textColor">@color/textColor</item>
         <item name="colorSecondary">#fff</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">

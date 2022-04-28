@@ -57,8 +57,11 @@
     <string name="most_recent_reward_text">Most recent reward</string>
     <string name="biggest_impact_challenge_text">Biggest impact challenge</string>
     <string name="streak_text">Current streak</string>
+
+    <!--    Smart vision strings-->
     <string name="title_activity_smart_vision">SmartVisionActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="close_button">Close</string>
+    <string name="capture_button">Pause or resume camera</string>
+    <string name="nnapi_switch">Accelerate with NNAPI</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.util.Log
 import android.util.Size
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.InterpreterApi
+import org.tensorflow.lite.nnapi.NnApiDelegate
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.common.TensorProcessor
 import org.tensorflow.lite.support.common.ops.NormalizeOp
@@ -21,7 +22,7 @@ import java.io.Closeable
 import java.util.*
 import kotlin.math.min
 
-class ImageClassifier (context: Context, private val maxResult: Int) : Closeable {
+class ImageClassifier (context: Context, private val maxResult: Int, nnapi) : Closeable {
     private var tfInputBuffer = TensorImage(DataType.UINT8)
     private var tfImageProcessor: ImageProcessor? = null
     private val preprocessNormalizeOp = NormalizeOp(127.0f, 128.0f)
@@ -33,7 +34,14 @@ class ImageClassifier (context: Context, private val maxResult: Int) : Closeable
 
     // Use TFLite in Play Services runtime by setting the option to FROM_SYSTEM_ONLY
     private val interpreterInitializer = lazy {
+        // NNAPI delegate to boost performance
+        val nnapiOption = NnApiDelegate.Options().apply {
+            useNnapiCpu = false
+            executionPreference = NnApiDelegate.Options.EXECUTION_PREFERENCE_SUSTAINED_SPEED
+        }
+        val nnApiDelegate = NnApiDelegate(nnapiOption)
         val interpreterOption = InterpreterApi.Options().setRuntime(InterpreterApi.Options.TfLiteRuntime.FROM_SYSTEM_ONLY)
+        interpreterOption.addDelegate(nnApiDelegate)
         InterpreterApi.create(FileUtil.loadMappedFile(context, MODEL_PATH), interpreterOption)
     }
     // Only use interpreter after initialization finished in CameraActivity

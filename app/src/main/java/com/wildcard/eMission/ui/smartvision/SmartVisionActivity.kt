@@ -40,7 +40,6 @@ import kotlin.math.log
  */
 class SmartVisionActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySmartVisionBinding
-    private lateinit var fullscreenContentLayout: ConstraintLayout
 
     // Camera activity related variables
     private lateinit var cameraExecutor: ExecutorService
@@ -77,7 +76,7 @@ class SmartVisionActivity : AppCompatActivity() {
         initializeTask
             .addOnSuccessListener {
                 Log.d("CameraX:", "TFLite in Play Services initialized successfully.")
-                classifier = ImageClassifier(this, NUM_OF_RESULTS)
+                classifier = ImageClassifier(this, NUM_OF_RESULTS, true)
 //                classifier = ImageClassificationHelper(this, NUM_OF_RESULTS)
             }
             .addOnFailureListener { e -> Log.e("CameraX", "TFLite in Play Services failed to initialize.", e) }
@@ -100,6 +99,14 @@ class SmartVisionActivity : AppCompatActivity() {
         binding.imageCaptureButton.setOnClickListener { pauseCameraFeed() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
+        
+        binding.nnapiSwitch.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                classifier = ImageClassifier(this, NUM_OF_RESULTS, true)
+            } else {
+                classifier = ImageClassifier(this, NUM_OF_RESULTS, false)
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults:

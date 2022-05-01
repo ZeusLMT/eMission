@@ -1,25 +1,20 @@
 package com.wildcard.eMission.ui.smartvision
 
 import android.Manifest
-import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Matrix
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
-import android.view.WindowInsets
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -32,7 +27,6 @@ import com.wildcard.eMission.databinding.ActivitySmartVisionBinding
 import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import kotlin.math.log
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
